@@ -73,7 +73,10 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
       />
       <button
         className='absolute top-2 right-2 underline text-white sm:text-black z-10 text-xs'
-        onClick={resetContext}
+        onClick={() => {
+          setFeedbackOpen(false)
+          resetContext()
+        }}
       >
         Reset demo
       </button>
