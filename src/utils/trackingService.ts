@@ -4,6 +4,7 @@ import Plausible from 'plausible-tracker';
 const plausible = Plausible({
   domain: window.location.hostname,
   trackLocalhost: true, // Enable tracking on localhost for testing
+  apiHost: 'https://plausible.getunleash.io'
 });
 
 // Automatically track page views
