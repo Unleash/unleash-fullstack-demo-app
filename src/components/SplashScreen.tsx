@@ -13,7 +13,7 @@ export const SplashScreen = () => {
 
   return (
     <div className='h-screen w-screen flex items-center justify-center sm:px-4'>
-      <div className='sm:border border-slate-900 sm:bg-white text-slate-900 rounded-3xl sm:shadow-xl p-8 w-full max-w-sm text-center animate-fadeInUp'>
+      <div className='sm:border border-unleash sm:bg-white text-slate-900 rounded-3xl sm:shadow-xl p-8 w-full max-w-sm text-center animate-fadeInUp'>
         <div className='mb-6'>
           <h1 className='text-3xl font-bold mb-2'>Welcome 👋</h1>
           <p className='text-gray-600'>Before we begin, how old are you?</p>

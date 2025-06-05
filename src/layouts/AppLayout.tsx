@@ -4,9 +4,11 @@ import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
 import { ChatBotB } from '../components/chat/B/ChatBotB'
 import { trackSupportClick, trackSessionStart } from '../utils/trackingService'
-import React from 'react'
+import React, { useState } from 'react'
 import { SplashScreen } from '../components/SplashScreen'
 import { useLocalContext } from '../providers/LocalContextProvider'
+import { Feedback } from '../components/feedback/Feedback'
+import { useFeedbackApi } from '../hooks/api/useFeedbackApi'
 
 const MENU = ['Dashboard', 'Summary', 'Expenses', 'Wallet', 'Settings']
 
@@ -17,6 +19,16 @@ interface IAppLayoutProps {
 export const AppLayout = ({ children }: IAppLayoutProps) => {
   const { flagsReady, flagsError } = useFlagsStatus()
   const chatbotVariant = useVariant('fsDemoApp.chatbot')
+
+  const [feedbackOpen, setFeedbackOpen] = useState(false)
+
+  const { sendFeedback } = useFeedbackApi()
+
+  const onScore = async (score: number) => {
+    setFeedbackOpen(false)
+    await sendFeedback(`chatbot-${chatbotVariant.name}`, score)
+    toast.success(`Thank you for your feedback! Score: ${score}`)
+  }
 
   const {
     context: { userAge },
@@ -65,13 +77,13 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
       >
         Reset demo
       </button>
+      <Toaster
+        position='bottom-center'
+        toastOptions={{
+          className: 'bg-slate-900 text-white'
+        }}
+      />
       <div className='bg-slate-900 text-white w-full flex flex-col items-center sm:w-auto sm:rounded-3xl sm:flex-row sm:p-5 sm:items-start transition-colors animate-fadeIn relative'>
-        <Toaster
-          position='top-left'
-          containerStyle={{
-            position: 'absolute'
-          }}
-        />
         <div className='p-4 sm:p-0 mt-2 sm:mt-6 sm:mr-6'>
           <User />
           <div className='hidden sm:block'>
@@ -109,10 +121,11 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
         <div className='bg-white text-slate-950 w-full p-6 rounded-t-3xl overflow-hidden flex flex-col gap-4 sm:rounded-3xl sm:gap-6'>
           {children}
         </div>
+        {feedbackOpen && <Feedback onScore={onScore} />}
         {chatbotVariant.name === 'basic' ? (
-          <ChatBotA />
+          <ChatBotA onClose={() => setFeedbackOpen(true)} />
         ) : chatbotVariant.name === 'advanced' ? (
-          <ChatBotB />
+          <ChatBotB onClose={() => setFeedbackOpen(true)} />
         ) : null}
       </div>
     </>

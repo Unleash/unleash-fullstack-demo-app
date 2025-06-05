@@ -14,7 +14,13 @@ const AI_ERROR_MESSAGE: ChatMessage = {
   content: `I'm sorry, I'm having trouble understanding you right now. I've reported the issue to the team. Please try again later.`
 }
 
-export const ChatBotA = () => {
+interface IChatBotAProps {
+  onOpen?: () => void
+  onClose?: () => void
+  onNew?: () => void
+}
+
+export const ChatBotA = ({ onOpen, onClose, onNew }: IChatBotAProps) => {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -85,7 +91,10 @@ export const ChatBotA = () => {
     return (
       <button
         className='flex items-center justify-center absolute bottom-8 right-8 w-20 h-20 bg-white text-unleash rounded-3xl shadow-popup border-4 border-unleash animate-fadeInUp'
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          onOpen?.()
+          setOpen(true)
+        }}
       >
         <Icon
           icon='fluent-mdl2:chat-bot'
@@ -98,8 +107,12 @@ export const ChatBotA = () => {
   return (
     <div className='absolute bottom-0 right-0 sm:bottom-2 sm:right-2 w-[min(100vw,400px)] h-[min(100vh,500px)] rounded-3xl shadow-popup border-4 border-unleash flex flex-col flex-1 overflow-hidden bg-unleash animate-fadeIn'>
       <AIChatHeader
-        onNew={() => setMessages([])}
+        onNew={() => {
+          onNew?.()
+          setMessages([])
+        }}
         onClose={() => {
+          onClose?.()
           setOpen(false)
         }}
       />
