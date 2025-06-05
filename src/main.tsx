@@ -4,8 +4,11 @@ import { App } from './App.tsx'
 import './index.css'
 
 import { FlagProvider, IConfig } from '@unleash/proxy-client-react'
-import { getLocalContext } from './util/context.ts'
 import './utils/trackingService'
+import {
+  LocalContextProvider,
+  getInitialContext
+} from './providers/LocalContextProvider.tsx'
 
 const config: IConfig = {
   url:
@@ -16,13 +19,15 @@ const config: IConfig = {
     'unleash-fullstack-demo-app:production.3416d5c4fad0c6eccd5093b19b1c94ade9c9c0cd81c2034704ef9165',
   refreshInterval: 2,
   appName: 'unleash-fullstack-demo-app',
-  context: getLocalContext()
+  context: getInitialContext()
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <FlagProvider config={config}>
-      <App />
+      <LocalContextProvider>
+        <App />
+      </LocalContextProvider>
     </FlagProvider>
   </React.StrictMode>
 )

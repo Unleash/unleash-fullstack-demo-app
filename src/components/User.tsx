@@ -1,13 +1,14 @@
 import { Icon } from '@iconify/react'
 import { toast } from 'react-hot-toast'
-import { getLocalContext } from '../util/context'
 import { useFlag } from '@unleash/proxy-client-react'
+import { useLocalContext } from '../providers/LocalContextProvider'
 
 export const User = () => {
   const showContext = useFlag('fsDemoApp.showContext')
 
-  const context = getLocalContext()
-  const { userId, properties } = context
+  const {
+    context: { userId, ...properties }
+  } = useLocalContext()
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userId!)
@@ -15,15 +16,15 @@ export const User = () => {
   }
 
   return (
-    <div className='flex flex-col items-center gap-2 w-full sm:max-w-xs min-w-[230px]'>
+    <div className='mt-4 sm:mt-0 flex flex-col items-center gap-2 w-full sm:max-w-xs min-w-[230px]'>
       <img
         src='/unleash.svg'
-        alt='User profile picture'
-        className='h-14 w-14 rounded-xl sm:h-20 sm:w-20'
+        alt='Unleash logo'
+        className='hidden sm:block h-20 w-20'
       />
-      <p className='text-xl sm:text-3xl'>Welcome</p>
+      <p className='hidden sm:block text-xl sm:text-3xl'>Welcome</p>
       <button
-        className='flex flex-row items-center bg-unleash text-white px-4 py-2 rounded cursor-pointer'
+        className='flex flex-row items-center bg-unleash px-4 py-2 rounded'
         title='Click to copy the userId to your clipboard'
         onClick={copyToClipboard}
       >

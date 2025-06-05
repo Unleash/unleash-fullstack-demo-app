@@ -21,7 +21,26 @@ export const AIChatInput = ({
   const disabled = !message.trim() || loading
 
   useEffect(() => {
-    textAreaRef.current?.focus()
+    const el = textAreaRef.current
+    if (!el) return
+
+    el.focus()
+
+    const scroll = () => {
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    }
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', scroll)
+    } else {
+      setTimeout(scroll, 100)
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', scroll)
+      }
+    }
   }, [])
 
   useEffect(() => {
