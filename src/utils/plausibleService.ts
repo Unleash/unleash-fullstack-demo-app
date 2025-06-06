@@ -29,5 +29,14 @@ export const trackSessionStart = (chatbotVariant: string) => {
   });
 };
 
+// Track chat open with chatbot variant
+export const trackChatOpen = (chatbotVariant: string) => {
+  plausible.trackEvent('chat_open', {
+    props: {
+      chatbotVariant,
+    },
+  });
+};
+
 // Export the plausible instance for custom tracking needs
 export default plausible;

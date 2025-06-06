@@ -22,5 +22,12 @@ export const trackSessionStart = (chatbotVariant: string) => {
   });
 };
 
+// Track chat open with chatbot variant
+export const trackChatOpen = (chatbotVariant: string) => {
+  mixpanel.track('chat_open', {
+    chatbotVariant,
+  });
+};
+
 // Export the mixpanel instance for custom tracking needs
 export default mixpanel;
