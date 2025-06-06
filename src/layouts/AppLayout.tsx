@@ -3,7 +3,8 @@ import toast, { Toaster } from 'react-hot-toast'
 import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
 import { ChatBotB } from '../components/chat/B/ChatBotB'
-import { trackSupportClick, trackSessionStart } from '../utils/trackingService'
+import { trackSupportClick, trackSessionStart } from '../utils/plausibleService.ts'
+import { trackSupportClick as trackMixpanelSupportClick, trackSessionStart as trackMixpanelSessionStart } from '../utils/mixpanelService'
 import React, { useState } from 'react'
 import { SplashScreen } from '../components/SplashScreen'
 import { useLocalContext } from '../providers/LocalContextProvider'
@@ -38,6 +39,7 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
   React.useEffect(() => {
     if (flagsReady) {
       trackSessionStart(chatbotVariant.name || 'none')
+      trackMixpanelSessionStart(chatbotVariant.name || 'none')
     }
   }, [flagsReady, chatbotVariant.name])
 
@@ -57,6 +59,7 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
   const onGetSupport = () => {
     // Track support button click with chatbot variant
     trackSupportClick(chatbotVariant.name || 'none')
+    trackMixpanelSupportClick(chatbotVariant.name || 'none')
     toast.success('Asked for support!')
   }
 
