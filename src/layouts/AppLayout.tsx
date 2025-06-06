@@ -121,7 +121,7 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
               })}
             </ul>
           </div>
-          <div className='text-center mt-4 sm:absolute sm:bottom-6 sm:mt-auto sm:ml-4'>
+          <div className='text-center mt-4 sm:absolute sm:bottom-6 sm:mt-auto sm:px-4 bg-slate-900'>
             <button className='text-white underline' onClick={onGetSupport}>
               Get support
             </button>
