@@ -83,7 +83,10 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
       <Toaster
         position='bottom-center'
         toastOptions={{
-          className: 'bg-slate-900 text-white'
+          style: {
+            backgroundColor: '#0f172a',
+            color: '#ffffff'
+          }
         }}
       />
       <div className='bg-slate-900 text-white w-full flex flex-col items-center sm:w-auto sm:rounded-3xl sm:flex-row sm:p-5 sm:items-start transition-colors animate-fadeIn relative'>
