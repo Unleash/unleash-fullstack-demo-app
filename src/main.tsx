@@ -4,7 +4,7 @@ import { App } from './App.tsx'
 import './index.css'
 
 import { FlagProvider, IConfig } from '@unleash/proxy-client-react'
-import './utils/trackingService'
+import './utils/plausibleService.ts'
 import {
   LocalContextProvider,
   getInitialContext

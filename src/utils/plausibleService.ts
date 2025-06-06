@@ -8,7 +8,7 @@ const plausible = Plausible({
 });
 
 // Automatically track page views
-const { enableAutoPageviews, trackPageview } = plausible;
+const { enableAutoPageviews } = plausible;
 enableAutoPageviews();
 
 // Track support button clicks with chatbot variant information
