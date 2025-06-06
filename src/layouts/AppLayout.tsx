@@ -3,8 +3,16 @@ import toast, { Toaster } from 'react-hot-toast'
 import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
 import { ChatBotB } from '../components/chat/B/ChatBotB'
-import { trackSupportClick, trackSessionStart, trackChatOpen } from '../utils/plausibleService.ts'
-import { trackSupportClick as trackMixpanelSupportClick, trackSessionStart as trackMixpanelSessionStart, trackChatOpen as trackMixpanelChatOpen } from '../utils/mixpanelService'
+import {
+  trackSupportClick,
+  trackSessionStart,
+  trackChatOpen
+} from '../utils/plausibleService.ts'
+import {
+  trackSupportClick as trackMixpanelSupportClick,
+  trackSessionStart as trackMixpanelSessionStart,
+  trackChatOpen as trackMixpanelChatOpen
+} from '../utils/mixpanelService'
 import React, { useState } from 'react'
 import { SplashScreen } from '../components/SplashScreen'
 import { useLocalContext } from '../providers/LocalContextProvider'
@@ -27,6 +35,7 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
 
   const onScore = async (score: number) => {
     setFeedbackOpen(false)
+    localStorage.setItem('providedFeedback', '1')
     await sendFeedback(`chatbot-${chatbotVariant.name}`, score)
     toast.success(`Thank you for your feedback! Score: ${score}`)
   }
@@ -67,6 +76,12 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
     // Track chat open with chatbot variant
     trackChatOpen(chatbotVariant.name || 'none')
     trackMixpanelChatOpen(chatbotVariant.name || 'none')
+  }
+
+  const onChatClose = () => {
+    if (!localStorage.getItem('providedFeedback')) {
+      setFeedbackOpen(true)
+    }
   }
 
   if (!userAge) {
@@ -138,9 +153,9 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
         </div>
         {feedbackOpen && <Feedback onScore={onScore} />}
         {chatbotVariant.name === 'basic' ? (
-          <ChatBotA onOpen={onChatOpen} onClose={() => setFeedbackOpen(true)} />
+          <ChatBotA onOpen={onChatOpen} onClose={onChatClose} />
         ) : chatbotVariant.name === 'advanced' ? (
-          <ChatBotB onOpen={onChatOpen} onClose={() => setFeedbackOpen(true)} />
+          <ChatBotB onOpen={onChatOpen} onClose={onChatClose} />
         ) : null}
       </div>
     </>

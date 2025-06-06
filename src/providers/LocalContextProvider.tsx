@@ -71,6 +71,7 @@ export const LocalContextProvider = ({
   const resetContext = () => {
     localStorage.removeItem('userId')
     localStorage.removeItem('userAge')
+    localStorage.removeItem('providedFeedback')
     setContext(getInitialContext())
   }
 
