@@ -201,12 +201,14 @@ export const handleChatRequest =
 
     const chatResponse = await generateChatResponse(unleash)(message, req.flagContext)
 
-    // Record metrics for this chat query
-    recordChatMetrics(
-      chatResponse.variant,
-      chatResponse.executionTimeMs,
-      chatResponse.costInDollars
-    )
+    // Record metrics for this chat query only when variant is basic or advanced
+    if (chatResponse.variant === 'basic' || chatResponse.variant === 'advanced') {
+      recordChatMetrics(
+        chatResponse.variant,
+        chatResponse.executionTimeMs,
+        chatResponse.costInDollars
+      )
+    }
 
     if (process.env.NODE_ENV !== 'production') {
       res.json(chatResponse)
