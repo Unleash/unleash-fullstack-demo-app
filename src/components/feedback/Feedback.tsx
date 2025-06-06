@@ -12,6 +12,7 @@ export const Feedback = ({ onScore }: IFeedbackProps) => (
         <button
           key={score}
           className='bg-unleash text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold hover:bg-unleash-dark transition-colors'
+          data-testid={`chatbot-rating-${score}`}
           onClick={() => onScore(score)}
         >
           {score}

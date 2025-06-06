@@ -90,6 +90,7 @@ export const ChatBotB = ({ onOpen, onClose, onNew }: IChatBotBProps) => {
   if (!open) {
     return (
       <button
+        data-testid='chatbot-button'
         className='flex items-center justify-center absolute bottom-8 right-8 w-20 h-20 bg-white text-orange rounded-3xl shadow-popup border-4 border-orange animate-fadeInUp'
         onClick={() => {
           onOpen?.()

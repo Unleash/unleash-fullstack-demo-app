@@ -17,7 +17,11 @@ export const AIChatHeader = ({ onNew, onClose }: IAIChatHeaderProps) => {
           <button title='New chat' onClick={onNew}>
             <Icon icon='ic:outline-post-add' className='text-2xl' />
           </button>
-          <button title='Close chat' onClick={onClose}>
+          <button
+            title='Close chat'
+            onClick={onClose}
+            data-testid='chatbot-close'
+          >
             <Icon icon='ic:baseline-close' className='text-2xl' />
           </button>
         </div>
