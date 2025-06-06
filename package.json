@@ -10,7 +10,8 @@
     "check": "tsc",
     "build": "vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "yarn build && yarn --cwd ./backend run start"
   },
   "dependencies": {
     "@iconify/react": "^4.1.0",
