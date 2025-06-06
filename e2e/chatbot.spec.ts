@@ -1,8 +1,26 @@
 import { test, expect } from '@playwright/test'
-import { getBiasedNumber } from './util'
+import { getBiasedNumber, pickRandom } from './util'
+
+const BASIC_INPUTS = [
+  'What can you do?',
+  'What are my total expenses?',
+  'What are my spending categories?',
+  'What is my highest expense?'
+]
+
+const ADVANCED_INPUTS = [
+  ...BASIC_INPUTS,
+  'Can you tell me more about my spending pattern?',
+  'Can you run an analysis on my expenses?'
+]
 
 test('chatbot', async ({ page }) => {
   await page.goto(process.env.E2E_URL || 'http://localhost:5173')
+
+  const getSupport = async () => {
+    await page.click('text=Get support')
+    await expect(page.getByText('Asked for support!')).toBeVisible()
+  }
 
   await page
     .getByRole('combobox')
@@ -13,23 +31,32 @@ test('chatbot', async ({ page }) => {
   const isChatBotVisible = await chatBotButton.isVisible()
 
   if (!isChatBotVisible) {
-    await page.click('text=Get support')
-    await expect(page.getByText('Asked for support!')).toBeVisible()
+    await getSupport()
+    console.log({
+      chatbot: 'None',
+      inputMessage: 'N/A',
+      score: 'N/A',
+      supportRequested: true
+    })
     return
   }
 
   await chatBotButton.click()
   const isAdvancedChatBot = await page.getByText('(advanced)').isVisible()
+
+  const inputMessage = pickRandom(
+    isAdvancedChatBot ? ADVANCED_INPUTS : BASIC_INPUTS
+  )
   const input = await page.getByRole('textbox', {
     name: 'Type your message here'
   })
-  await input.fill('Hello')
+  await input.fill(inputMessage)
   await input.press('Enter')
 
   await page.getByTestId('chatbot-close').click()
 
   const rating = isAdvancedChatBot
-    ? getBiasedNumber(1, 7, 2, 1)
+    ? getBiasedNumber(1, 7, 2, 2)
     : getBiasedNumber(1, 7, 6, 1)
 
   await page.getByTestId(`chatbot-rating-${rating}`).click()
@@ -38,7 +65,19 @@ test('chatbot', async ({ page }) => {
   ).toBeVisible()
 
   if (rating === 1) {
-    await page.click('text=Get support')
-    await expect(page.getByText('Asked for support!')).toBeVisible()
+    await getSupport()
+    console.log({
+      chatbot: isAdvancedChatBot ? 'advanced' : 'basic',
+      inputMessage,
+      score: rating,
+      supportRequested: true
+    })
+    return
   }
+  console.log({
+    chatbot: isAdvancedChatBot ? 'advanced' : 'basic',
+    inputMessage,
+    score: rating,
+    supportRequested: false
+  })
 })

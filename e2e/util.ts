@@ -10,3 +10,11 @@ export const getBiasedNumber = (min, max, mean, stdDev) => {
 
   return Math.min(max, Math.max(min, num))
 }
+
+export function pickRandom<T>(array: T[]): T {
+  if (!array.length) {
+    throw new Error('Cannot pick from an empty array')
+  }
+  const index = Math.floor(Math.random() * array.length)
+  return array[index]
+}
