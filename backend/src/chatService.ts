@@ -165,7 +165,15 @@ export const generateChatResponse =
         ? getRandomDelay(500, 200) // Advanced: 500ms ±200ms - faster
         : getRandomDelay(2000, 500) // Basic: 2 seconds ±500ms - slower
 
-    const costPerRequest = variantName === 'advanced' ? 0.2 : 0.1 // Advanced is more expensive
+    // Function to add random variance to cost
+    const getRandomCost = (baseCost: number, variation: number) => {
+      return baseCost + (Math.random() * 2 - 1) * variation
+    }
+
+    // Advanced is more expensive, add +/- 0.1 variance to both costs
+    const costPerRequest = variantName === 'advanced' 
+      ? getRandomCost(0.2, 0.1) 
+      : getRandomCost(0.1, 0.1)
 
     const startTime = Date.now()
 
