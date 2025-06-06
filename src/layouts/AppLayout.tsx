@@ -3,8 +3,8 @@ import toast, { Toaster } from 'react-hot-toast'
 import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
 import { ChatBotB } from '../components/chat/B/ChatBotB'
-import { trackSupportClick, trackSessionStart } from '../utils/plausibleService.ts'
-import { trackSupportClick as trackMixpanelSupportClick, trackSessionStart as trackMixpanelSessionStart } from '../utils/mixpanelService'
+import { trackSupportClick, trackSessionStart, trackChatOpen } from '../utils/plausibleService.ts'
+import { trackSupportClick as trackMixpanelSupportClick, trackSessionStart as trackMixpanelSessionStart, trackChatOpen as trackMixpanelChatOpen } from '../utils/mixpanelService'
 import React, { useState } from 'react'
 import { SplashScreen } from '../components/SplashScreen'
 import { useLocalContext } from '../providers/LocalContextProvider'
@@ -61,6 +61,12 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
     trackSupportClick(chatbotVariant.name || 'none')
     trackMixpanelSupportClick(chatbotVariant.name || 'none')
     toast.success('Asked for support!')
+  }
+
+  const onChatOpen = () => {
+    // Track chat open with chatbot variant
+    trackChatOpen(chatbotVariant.name || 'none')
+    trackMixpanelChatOpen(chatbotVariant.name || 'none')
   }
 
   if (!userAge) {
@@ -132,9 +138,9 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
         </div>
         {feedbackOpen && <Feedback onScore={onScore} />}
         {chatbotVariant.name === 'basic' ? (
-          <ChatBotA onClose={() => setFeedbackOpen(true)} />
+          <ChatBotA onOpen={onChatOpen} onClose={() => setFeedbackOpen(true)} />
         ) : chatbotVariant.name === 'advanced' ? (
-          <ChatBotB onClose={() => setFeedbackOpen(true)} />
+          <ChatBotB onOpen={onChatOpen} onClose={() => setFeedbackOpen(true)} />
         ) : null}
       </div>
     </>
