@@ -151,7 +151,9 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
         <div className='bg-white text-slate-950 w-full p-6 rounded-t-3xl overflow-hidden flex flex-col gap-4 sm:rounded-3xl sm:gap-6'>
           {children}
         </div>
-        {feedbackOpen && <Feedback onScore={onScore} />}
+        {feedbackOpen && chatbotVariant.enabled && (
+          <Feedback onScore={onScore} />
+        )}
         {chatbotVariant.name === 'basic' ? (
           <ChatBotA onOpen={onChatOpen} onClose={onChatClose} />
         ) : chatbotVariant.name === 'advanced' ? (
