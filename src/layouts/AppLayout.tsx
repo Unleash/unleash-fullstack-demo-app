@@ -52,19 +52,6 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
     }
   }, [flagsReady, chatbotVariant.name])
 
-  if (!flagsReady) {
-    return null
-  }
-
-  if (flagsError) {
-    console.error(flagsError)
-    return (
-      <div className='bg-slate-900 text-white w-full flex flex-col items-center sm:w-auto sm:rounded-3xl sm:flex-row sm:p-5'>
-        Something went wrong. Check the console for more information.
-      </div>
-    )
-  }
-
   const onGetSupport = () => {
     // Track support button click with chatbot variant
     trackSupportClick(chatbotVariant.name || 'none')
@@ -86,6 +73,19 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
 
   if (!userAge) {
     return <SplashScreen />
+  }
+
+  if (!flagsReady) {
+    return null
+  }
+
+  if (flagsError) {
+    console.error(flagsError)
+    return (
+      <div className='bg-slate-900 text-white w-full flex flex-col items-center sm:w-auto sm:rounded-3xl sm:flex-row sm:p-5'>
+        Something went wrong. Check the console for more information.
+      </div>
+    )
   }
 
   return (
