@@ -13,11 +13,12 @@ import {
   trackSessionStart as trackMixpanelSessionStart,
   trackChatOpen as trackMixpanelChatOpen
 } from '../utils/mixpanelService'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SplashScreen } from '../components/SplashScreen'
 import { useLocalContext } from '../providers/LocalContextProvider'
 import { Feedback } from '../components/feedback/Feedback'
 import { useFeedbackApi } from '../hooks/api/useFeedbackApi'
+import * as Sentry from '@sentry/react'
 
 const MENU = ['Dashboard', 'Summary', 'Expenses', 'Wallet', 'Settings']
 
@@ -37,18 +38,24 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
     setFeedbackOpen(false)
     localStorage.setItem('providedFeedback', '1')
     await sendFeedback(`chatbot-${chatbotVariant.name}`, score)
+    Sentry.captureFeedback({
+      message: `Chatbot: ${chatbotVariant.name}. Score: ${score}`
+    })
     toast.success(`Thank you for your feedback! Score: ${score}`)
   }
 
-  const {
-    context: { userAge },
-    resetContext
-  } = useLocalContext()
+  const { context, resetContext } = useLocalContext()
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (flagsReady) {
+      // Plausible
       trackSessionStart(chatbotVariant.name || 'none')
+      // Mixpanel
       trackMixpanelSessionStart(chatbotVariant.name || 'none')
+      // Sentry
+      Sentry.setUser({ id: context.userId })
+      Sentry.setContext('localContext', context)
+      Sentry.setTag('flag.chatbotVariant', chatbotVariant.name || 'none')
     }
   }, [flagsReady, chatbotVariant.name])
 
@@ -71,7 +78,7 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
     }
   }
 
-  if (!userAge) {
+  if (!context.userAge) {
     return <SplashScreen />
   }
 

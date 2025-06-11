@@ -4,6 +4,8 @@ import { ChatMessage, useAIApi } from '../../../hooks/api/useAIApi'
 import { AIChatHeader } from './AIChatHeader'
 import { AIChatInput } from './AIChatInput'
 import { AIChatMessage } from './AIChatMessage'
+import * as Sentry from '@sentry/react'
+import { useFlag } from '@unleash/proxy-client-react'
 
 type ScrollOptions = ScrollIntoViewOptions & {
   onlyIfAtEnd?: boolean
@@ -25,6 +27,8 @@ export const ChatBotB = ({ onOpen, onClose, onNew }: IChatBotBProps) => {
   const [loading, setLoading] = useState(false)
 
   const [messages, setMessages] = useState<ChatMessage[]>([])
+
+  const problematicNewFeature = useFlag('fsDemoApp.problematicNewFeature')
 
   const { chat } = useAIApi()
 
@@ -50,11 +54,16 @@ export const ChatBotB = ({ onOpen, onClose, onNew }: IChatBotBProps) => {
         ...currentMessages,
         { role: 'user', content }
       ])
+      if (problematicNewFeature) {
+        // Simulate a problematic feature that causes an error
+        throw new Error('Simulated error for problematic new feature')
+      }
       const response = await chat(content)
       setMessages(currentMessages => [...currentMessages, response])
     } catch (error: unknown) {
       setMessages(currentMessages => [...currentMessages, AI_ERROR_MESSAGE])
       console.error('AI API error', error)
+      Sentry.captureException(error)
     } finally {
       setLoading(false)
     }
