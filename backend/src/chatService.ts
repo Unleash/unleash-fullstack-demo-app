@@ -140,83 +140,82 @@ function simulateDelay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-export const generateChatResponse =
-  (unleash: Unleash) =>
-  async (message: string, context?: Record<string, string>): Promise<ChatResponse> => {
-    const variant = context
-      ? unleash.getVariant('fsDemoApp.chatbot', { properties: context})
-      : unleash.getVariant('fsDemoApp.chatbot')
-    const variantName = variant.name || 'basic'
+export const generateChatResponse = async (
+  message: string,
+  variant = 'basic'
+): Promise<ChatResponse> => {
+  // Set delay and cost based on variant
+  // Advanced: faster but more expensive
+  // Basic: slower but cheaper
 
-
-    // Set delay and cost based on variant
-    // Advanced: faster but more expensive
-    // Basic: slower but cheaper
-
-    // Calculate random delay within the specified range
-    // Advanced: 500ms ±200ms (300ms to 700ms) - faster but more expensive
-    // Basic: 2 seconds ±500ms (1500ms to 2500ms) - slower but cheaper
-    const getRandomDelay = (base: number, variation: number) => {
-      return base + (Math.random() * 2 - 1) * variation
-    }
-
-    const delayMs =
-      variantName === 'basic'
-        ? getRandomDelay(500, 200) // Advanced: 500ms ±200ms - faster
-        : getRandomDelay(2000, 500) // Basic: 2 seconds ±500ms - slower
-
-    // Function to add random variance to cost
-    const getRandomCost = (baseCost: number, variation: number) => {
-      return baseCost + (Math.random() * 2 - 1) * variation
-    }
-
-    // Advanced is more expensive, add +/- 0.1 variance to both costs
-    const costPerRequest = variantName === 'advanced' 
-      ? getRandomCost(0.2, 0.1) 
-      : getRandomCost(0.1, 0.1)
-
-    const startTime = Date.now()
-
-    // Simulate AI processing delay
-    await simulateDelay(delayMs)
-
-    let response: string
-
-    if (variantName === 'advanced') {
-      response = generateAdvancedChatResponse(message, userExpenses)
-    } else {
-      response = generateBasicChatResponse(message, userExpenses)
-    }
-
-    const executionTimeMs = Date.now() - startTime
-
-    return {
-      response,
-      variant: variantName,
-      executionTimeMs,
-      costInDollars: costPerRequest
-    }
+  // Calculate random delay within the specified range
+  // Advanced: 500ms ±200ms (300ms to 700ms) - faster but more expensive
+  // Basic: 2 seconds ±500ms (1500ms to 2500ms) - slower but cheaper
+  const getRandomDelay = (base: number, variation: number) => {
+    return base + (Math.random() * 2 - 1) * variation
   }
+
+  const delayMs =
+    variant === 'basic'
+      ? getRandomDelay(500, 200) // Advanced: 500ms ±200ms - faster
+      : getRandomDelay(2000, 500) // Basic: 2 seconds ±500ms - slower
+
+  // Function to add random variance to cost
+  const getRandomCost = (baseCost: number, variation: number) => {
+    return baseCost + (Math.random() * 2 - 1) * variation
+  }
+
+  // Advanced is more expensive, add +/- 0.1 variance to both costs
+  const costPerRequest =
+    variant === 'advanced' ? getRandomCost(0.2, 0.1) : getRandomCost(0.1, 0.1)
+
+  const startTime = Date.now()
+
+  // Simulate AI processing delay
+  await simulateDelay(delayMs)
+
+  let response: string
+
+  if (variant === 'advanced') {
+    response = generateAdvancedChatResponse(message, userExpenses)
+  } else {
+    response = generateBasicChatResponse(message, userExpenses)
+  }
+
+  const executionTimeMs = Date.now() - startTime
+
+  return {
+    response,
+    variant,
+    executionTimeMs,
+    costInDollars: costPerRequest
+  }
+}
 
 export const handleChatRequest =
   (unleash: Unleash) => async (req: Request, res: Response) => {
     const { message } = req.body
+
+    const variant = req.flagContext
+      ? unleash.getVariant('fsDemoApp.chatbot', { properties: req.flagContext })
+      : unleash.getVariant('fsDemoApp.chatbot')
+
+    if (variant.name !== 'basic' && variant.name !== 'advanced') {
+      return res.sendStatus(404)
+    }
 
     if (!message) {
       res.status(400).json({ error: 'Message is required' })
       return
     }
 
-    const chatResponse = await generateChatResponse(unleash)(message, req.flagContext)
+    const chatResponse = await generateChatResponse(message, variant.name)
 
-    // Record metrics for this chat query only when variant is basic or advanced
-    if (chatResponse.variant === 'basic' || chatResponse.variant === 'advanced') {
-      recordChatMetrics(
-        chatResponse.variant,
-        chatResponse.executionTimeMs,
-        chatResponse.costInDollars
-      )
-    }
+    recordChatMetrics(
+      chatResponse.variant,
+      chatResponse.executionTimeMs,
+      chatResponse.costInDollars
+    )
 
     if (process.env.NODE_ENV !== 'production') {
       res.json(chatResponse)
