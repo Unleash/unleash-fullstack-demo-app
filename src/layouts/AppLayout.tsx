@@ -57,7 +57,7 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
       Sentry.setContext('localContext', context)
       Sentry.setTag('flag.chatbotVariant', chatbotVariant.name || 'none')
     }
-  }, [flagsReady, chatbotVariant.name])
+  }, [flagsReady, chatbotVariant.name, JSON.stringify(context)])
 
   const onGetSupport = () => {
     // Track support button click with chatbot variant
