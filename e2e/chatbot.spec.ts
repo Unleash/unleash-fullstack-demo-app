@@ -28,9 +28,9 @@ test('chatbot', async ({ page }) => {
   await page.click('text=Continue')
 
   const chatBotButton = await page.getByTestId('chatbot-button')
-  const isChatBotVisible = await chatBotButton.isVisible()
-
-  if (!isChatBotVisible) {
+  try {
+    await expect(chatBotButton).toBeVisible({ timeout: 2000 })
+  } catch {
     await getSupport()
     console.log({
       chatbot: 'None',
