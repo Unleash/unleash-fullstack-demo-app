@@ -9,15 +9,17 @@ export interface ICompany {
   category: ICategory
 }
 
+export const SAMSUNG: ICompany = {
+  name: 'Samsung',
+  logo: '/companies/logo_samsung.png',
+  category: {
+    name: 'Electronics',
+    color: '#1428A0'
+  }
+}
+
 export const COMPANIES: ICompany[] = [
-  {
-    name: 'Samsung',
-    logo: '/companies/logo_samsung.png',
-    category: {
-      name: 'Electronics',
-      color: '#1428A0'
-    }
-  },
+  SAMSUNG,
   {
     name: 'Grocery Max',
     logo: '/companies/logo1.png',

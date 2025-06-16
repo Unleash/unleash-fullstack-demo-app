@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
 import { IColor, getColor } from '../util/color'
 import { random } from '../util/random'
-import { COMPANIES, ICompany } from '../util/constants'
+import { COMPANIES, ICompany, SAMSUNG } from '../util/constants'
 import { ProgressBar } from './ProgressBar'
 
 const addExpense = (company?: ICompany) => {
@@ -30,7 +30,7 @@ export const ExpensesTable = ({ color }: IExpensesTableProps) => {
     month: 'long'
   })
 
-  const expenses = [addExpense(COMPANIES[0])]
+  const expenses = [addExpense(SAMSUNG)]
 
   for (let e = 0; e < 30; e++) {
     expenses.push(addExpense())
