@@ -1,8 +1,25 @@
 import { Icon } from '@iconify/react'
 import { IColor, getColor } from '../util/color'
 import { random } from '../util/random'
-import { COMPANIES } from '../util/constants'
+import { COMPANIES, ICompany } from '../util/constants'
 import { ProgressBar } from './ProgressBar'
+
+const addExpense = (company?: ICompany) => {
+  const companyToAdd = company || COMPANIES[random(COMPANIES.length - 1)]
+  const valueCents = random(99).toString().padStart(2, '0')
+  const value = `$${random(999)}.${valueCents}`
+  const timeHours = random(23).toString().padStart(2, '0')
+  const timeMinutes = random(59).toString().padStart(2, '0')
+  const time = `${timeHours}:${timeMinutes}`
+  const budget = random(100)
+
+  return {
+    company: companyToAdd,
+    time,
+    value,
+    budget
+  }
+}
 
 interface IExpensesTableProps {
   color: IColor
@@ -13,22 +30,10 @@ export const ExpensesTable = ({ color }: IExpensesTableProps) => {
     month: 'long'
   })
 
-  const expenses = []
-  for (let e = 0; e < 31; e++) {
-    const valueCents = random(99).toString().padStart(2, '0')
-    const value = `$${random(999)}.${valueCents}`
-    const timeHours = random(23).toString().padStart(2, '0')
-    const timeMinutes = random(59).toString().padStart(2, '0')
-    const time = `${timeHours}:${timeMinutes}`
-    const company = COMPANIES[random(COMPANIES.length - 1)]
-    const budget = random(100)
+  const expenses = [addExpense(COMPANIES[0])]
 
-    expenses.push({
-      company,
-      time,
-      value,
-      budget
-    })
+  for (let e = 0; e < 30; e++) {
+    expenses.push(addExpense())
   }
 
   return (

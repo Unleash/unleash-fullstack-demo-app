@@ -3,13 +3,21 @@ interface ICategory {
   color: string
 }
 
-interface ICompany {
+export interface ICompany {
   name: string
   logo: string
   category: ICategory
 }
 
 export const COMPANIES: ICompany[] = [
+  {
+    name: 'Samsung',
+    logo: '/companies/logo_samsung.png',
+    category: {
+      name: 'Electronics',
+      color: '#1428A0'
+    }
+  },
   {
     name: 'Grocery Max',
     logo: '/companies/logo1.png',
