@@ -1,8 +1,7 @@
-import { useFlagsStatus, useVariant } from '@unleash/proxy-client-react'
+import { useFlagsStatus } from '@unleash/proxy-client-react'
 import toast, { Toaster } from 'react-hot-toast'
 import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
-import { ChatBotB } from '../components/chat/B/ChatBotB'
 import {
   trackSupportClick,
   trackSessionStart,
@@ -28,18 +27,18 @@ interface IAppLayoutProps {
 
 export const AppLayout = ({ children }: IAppLayoutProps) => {
   const { flagsReady, flagsError } = useFlagsStatus()
-  const chatbotVariant = useVariant('fsDemoApp.chatbot')
+  const CHATBOT_VARIANT = 'basic'
 
-  const [feedbackOpen, setFeedbackOpen] = useState(false)
+  const [, setFeedbackOpen] = useState(false)
 
   const { sendFeedback } = useFeedbackApi()
 
   const onScore = async (score: number) => {
     setFeedbackOpen(false)
     localStorage.setItem('providedFeedback', '1')
-    await sendFeedback(`chatbot-${chatbotVariant.name}`, score)
+    await sendFeedback(`chatbot-${CHATBOT_VARIANT}`, score)
     Sentry.captureFeedback({
-      message: `Chatbot: ${chatbotVariant.name}. Score: ${score}`
+      message: `Chatbot: ${CHATBOT_VARIANT}. Score: ${score}`
     })
     toast.success(`Thank you for your feedback! Score: ${score}`)
   }
@@ -49,27 +48,27 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
   useEffect(() => {
     if (flagsReady) {
       // Plausible
-      trackSessionStart(chatbotVariant.name || 'none')
+      trackSessionStart(CHATBOT_VARIANT)
       // Mixpanel
-      trackMixpanelSessionStart(chatbotVariant.name || 'none')
+      trackMixpanelSessionStart(CHATBOT_VARIANT)
       // Sentry
       Sentry.setUser({ id: context.userId })
       Sentry.setContext('localContext', context)
-      Sentry.setTag('flag.chatbotVariant', chatbotVariant.name || 'none')
+      Sentry.setTag('flag.chatbotVariant', CHATBOT_VARIANT)
     }
-  }, [flagsReady, chatbotVariant.name, JSON.stringify(context)])
+  }, [flagsReady, context, CHATBOT_VARIANT])
 
   const onGetSupport = () => {
     // Track support button click with chatbot variant
-    trackSupportClick(chatbotVariant.name || 'none')
-    trackMixpanelSupportClick(chatbotVariant.name || 'none')
+    trackSupportClick(CHATBOT_VARIANT)
+    trackMixpanelSupportClick(CHATBOT_VARIANT)
     toast.success('Asked for support!')
   }
 
   const onChatOpen = () => {
     // Track chat open with chatbot variant
-    trackChatOpen(chatbotVariant.name || 'none')
-    trackMixpanelChatOpen(chatbotVariant.name || 'none')
+    trackChatOpen(CHATBOT_VARIANT)
+    trackMixpanelChatOpen(CHATBOT_VARIANT)
   }
 
   const onChatClose = () => {
@@ -158,14 +157,8 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
         <div className='bg-white text-slate-950 w-full p-6 rounded-t-3xl overflow-hidden flex flex-col gap-4 sm:rounded-3xl sm:gap-6'>
           {children}
         </div>
-        {feedbackOpen && chatbotVariant.enabled && (
-          <Feedback onScore={onScore} />
-        )}
-        {chatbotVariant.name === 'basic' ? (
-          <ChatBotA onOpen={onChatOpen} onClose={onChatClose} />
-        ) : chatbotVariant.name === 'advanced' ? (
-          <ChatBotB onOpen={onChatOpen} onClose={onChatClose} />
-        ) : null}
+        <Feedback onScore={onScore} />
+        <ChatBotA onOpen={onChatOpen} onClose={onChatClose} />
       </div>
     </>
   )

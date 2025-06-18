@@ -75,7 +75,6 @@ export const LocalContextProvider = ({
     localStorage.removeItem('providedFeedback')
     Sentry.setUser(null)
     Sentry.setContext('localContext', null)
-    Sentry.setTag('flag.chatbotVariant', 'none')
 
     const initialContext = getInitialContext()
     setContext(initialContext)
