@@ -25,8 +25,8 @@ export const unleashContextMiddleware = (
   // Attach the context to the request object
   req.flagContext = flagContext;
 
-  // Log the context for debugging (remove in production)
-  if (Object.keys(flagContext).length > 0) {
+  // Log the context for debugging outside production
+  if (process.env.NODE_ENV !== 'production' && Object.keys(flagContext).length > 0) {
     console.log('Unleash context extracted from headers:', flagContext);
   }
 

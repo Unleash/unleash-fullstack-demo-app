@@ -27,9 +27,6 @@ pnpm test-chat
 
 # Test the metrics collection
 pnpm test-metrics
-
-# Test the flag variant endpoint
-pnpm test-flag
 ```
 
 Alternatively, use `npm` (from the repo root: `npm --prefix ./backend run dev`).
@@ -41,8 +38,6 @@ Alternatively, use `npm` (from the repo root: `npm --prefix ./backend run dev`).
   - Request body: `{ "message": "your question here" }`
   - Response: `{ "response": "AI response", "variant": "basic|advanced", "executionTimeMs": 123, "costInDollars": 0.02 }`
   - Supports questions about total expenses, expense categories, highest expenses, and spending patterns (advanced variant only)
-  - Supports context parameters passed via headers in the format `Unleash-ContextParam-{paramName}: {value}`
-- `GET /api/flag/variant` - Returns the current variant of the 'fsDemoApp.chatbot' feature flag
   - Supports context parameters passed via headers in the format `Unleash-ContextParam-{paramName}: {value}`
 - `GET /metrics` - Prometheus metrics endpoint for monitoring chat performance and costs
 
@@ -86,7 +81,6 @@ The application uses the following feature flags:
 - `src/contextMiddleware.ts` - Middleware for extracting Unleash context from request headers
 - `test-chat-api.js` - Script for testing the chat API
 - `test-metrics.js` - Script for testing metrics collection
-- `test-flag-variant.js` - Script for testing the flag variant endpoint
 - `dist/` - Compiled JavaScript files (generated after build)
 
 ## Static Content

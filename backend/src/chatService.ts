@@ -145,20 +145,16 @@ export const generateChatResponse = async (
   variant = 'basic'
 ): Promise<ChatResponse> => {
   // Set delay and cost based on variant
-  // Advanced: faster but more expensive
-  // Basic: slower but cheaper
-
-  // Calculate random delay within the specified range
-  // Advanced: 500ms ±200ms (300ms to 700ms) - faster but more expensive
-  // Basic: 2 seconds ±500ms (1500ms to 2500ms) - slower but cheaper
+  // Basic: faster and cheaper
+  // Advanced: slower (heavier analysis) but more capable, and more expensive
   const getRandomDelay = (base: number, variation: number) => {
     return base + (Math.random() * 2 - 1) * variation
   }
 
   const delayMs =
     variant === 'basic'
-      ? getRandomDelay(500, 200) // Advanced: 500ms ±200ms - faster
-      : getRandomDelay(2000, 500) // Basic: 2 seconds ±500ms - slower
+      ? getRandomDelay(500, 200) // Basic: 500ms ±200ms
+      : getRandomDelay(2000, 500) // Advanced: 2 seconds ±500ms
 
   // Function to add random variance to cost
   const getRandomCost = (baseCost: number, variation: number) => {

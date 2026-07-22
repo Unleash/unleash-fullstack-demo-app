@@ -3,7 +3,6 @@ import Bowser from 'bowser'
 import { useUnleashContext } from '@unleash/proxy-client-react'
 import { random } from '../util/random'
 import { filterOutFalsyFromObject } from '../util/filter'
-import * as Sentry from '@sentry/react'
 
 type LocalContextData = {
   userId: string
@@ -74,9 +73,6 @@ export const LocalContextProvider = ({
     localStorage.removeItem('userId')
     localStorage.removeItem('userAge')
     localStorage.removeItem('providedFeedback')
-    Sentry.setUser(null)
-    Sentry.setContext('localContext', null)
-    Sentry.setTag('flag.chatbotVariant', 'none')
 
     const initialContext = getInitialContext()
     setContext(initialContext)

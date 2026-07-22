@@ -4,7 +4,6 @@ import { ChatMessage, useAIApi } from '../../../hooks/api/useAIApi'
 import { AIChatHeader } from './AIChatHeader'
 import { AIChatInput } from './AIChatInput'
 import { AIChatMessage } from './AIChatMessage'
-import * as Sentry from '@sentry/react'
 import { useFlag } from '@unleash/proxy-client-react'
 
 type ScrollOptions = ScrollIntoViewOptions & {
@@ -63,7 +62,6 @@ export const ChatBotB = ({ onOpen, onClose, onNew }: IChatBotBProps) => {
     } catch (error: unknown) {
       setMessages(currentMessages => [...currentMessages, AI_ERROR_MESSAGE])
       console.error('AI API error', error)
-      Sentry.captureException(error)
     } finally {
       setLoading(false)
     }

@@ -77,6 +77,8 @@ app.get('/metrics', async (req, res) => {
   }
 })
 
+// For any other GET request, send the index.html file
+// This enables client-side routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'))
 })
