@@ -4,6 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
 import { ChatBotB } from '../components/chat/B/ChatBotB'
+import { SpendingInsight } from '../components/insights/SpendingInsight'
 import {
   trackSupportClick,
   trackSessionStart,
@@ -140,6 +141,7 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
           </div>
         </div>
         <div className='bg-white text-slate-950 w-full p-6 rounded-t-3xl overflow-hidden flex flex-col gap-4 sm:rounded-3xl sm:gap-6'>
+          <SpendingInsight />
           {children}
         </div>
         {feedbackOpen && chatbotVariant.enabled && (

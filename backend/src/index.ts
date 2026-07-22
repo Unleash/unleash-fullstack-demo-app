@@ -7,6 +7,10 @@ import { fileURLToPath } from 'url'
 import cors from 'cors'
 import { initialize } from 'unleash-client'
 import { handleChatRequest } from './chatService.js'
+import {
+  defineInsightsImpactMetrics,
+  handleInsightsRequest
+} from './insightsService.js'
 import { metricsRegistry } from './metricsService.js'
 import { unleashContextMiddleware } from './contextMiddleware.js'
 
@@ -36,6 +40,9 @@ const unleash = initialize({
   }
 })
 
+// Register the impact metrics for the Safeguards demo scenario
+defineInsightsImpactMetrics(unleash)
+
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -64,6 +71,9 @@ app.get('/api/info', (req, res) => {
 
 // AI Chat endpoint
 app.post('/api/chat', handleChatRequest(unleash))
+
+// AI Spending Insight endpoint (Safeguards demo scenario)
+app.get('/api/insights', handleInsightsRequest(unleash))
 
 // Debug endpoint: shows which variant the backend SDK evaluates after polling
 app.get('/api/flag/variant', (req, res) => {

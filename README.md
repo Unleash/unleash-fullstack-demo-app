@@ -39,6 +39,17 @@ One `.env` file at the repo root serves both sides: the backend loads it on star
 | `NODE_ENV` | backend + build | yes | `development` or `production` |
 | `PORT` | backend | no | Backend HTTP port (default: 3000) |
 
+## Safeguards demo
+
+The `fsDemoApp.spendingInsights` flag drives an "AI Spending Insight" banner that fails at a controlled rate. The widget polls every 10 seconds, so one open tab generates enough error traffic to trip a low-threshold Unleash Safeguard. The backend records the impact metrics `unleash_fullstack_demo_insights_requests_total`, `unleash_fullstack_demo_insights_errors_total`, and `unleash_fullstack_demo_insights_response_time_ms`; Prometheus mirrors are exposed on `/metrics`.
+
+Unleash-side setup — two recipes, same app code:
+
+1. **Flag + safeguard:** create the release flag `fsDemoApp.spendingInsights`, optionally with a `default` variant carrying the JSON payload `{"errorRate": 0.3, "latencyMs": 250}` (tune it live, no redeploy). Enable with a gradual rollout (e.g. 25%). Add a Safeguard on `unleash_fullstack_demo_insights_errors_total` (e.g. "more than 10 over 15 minutes") with the action **Disable flag environment**. Demo arc: raise `errorRate` to 0.8 → red banners → the safeguard fires → the widget vanishes and errors flatline.
+2. **Release template (Enterprise ≥ 7.2):** apply a release plan with milestones 25% → 50% → 100% and timed progression; add the same Safeguard with the action **Pause release plan automation**. Demo arc: the rollout pauses at the current milestone; lower `errorRate` and resume.
+
+Prerequisite: impact metrics and safeguards must be enabled on the target Unleash instance.
+
 ## Uses
 
 - [Vite](https://vitejs.dev/guide/) - [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) + [SWC](https://swc.rs/)
