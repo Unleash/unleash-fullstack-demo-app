@@ -1,29 +1,33 @@
-# Logs
+# Logs.
 logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+*.log*
 
+# Dependencies and Build Assets.
 node_modules
 dist
 dist-ssr
-*.local
 
-# Editor directories and files
+# Settings and environment variables.
+*.local
+.env
+
+# `yarn` is retired; `pnpm-lock.yaml` and `package-lock.json` are now canonical.
+yarn.lock
+
+# IDEs/editors directories and files.
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# Playwright
+# OS-level stuff.
+.DS_Store
+
+# Tests Assets (Playwright).
 /test-results/
 /playwright-report/
 /blob-report/

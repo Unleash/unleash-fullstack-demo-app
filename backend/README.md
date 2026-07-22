@@ -1,35 +1,38 @@
-# Unleash Demo App Backend
+# unleash-fullstack-demo-app — backend
 
-This is the backend service for the Unleash Demo App. It's built with Express and TypeScript, and serves both the static frontend files and provides API endpoints.
+The backend service for the Unleash fullstack demo app. Built with Express and TypeScript, it serves the static frontend files and provides API endpoints.
 
-## Setup
+## Development
+
+Install dependencies from the repo root (the backend is a pnpm workspace):
 
 ```bash
-# Install dependencies
-yarn
+pnpm install
 ```
 
-## Available Scripts
+Then, from this directory:
 
 ```bash
 # Start development server with hot-reload
-yarn dev
+pnpm dev
 
 # Build the TypeScript code
-yarn build
+pnpm build
 
 # Start production server
-yarn start
+pnpm start
 
 # Test the AI chat API
-yarn test-chat
+pnpm test-chat
 
 # Test the metrics collection
-yarn test-metrics
+pnpm test-metrics
 
 # Test the flag variant endpoint
-yarn test-flag
+pnpm test-flag
 ```
+
+Alternatively, use `npm` (from the repo root: `npm --prefix ./backend run dev`).
 
 ## API Endpoints
 

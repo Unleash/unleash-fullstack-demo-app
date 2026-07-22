@@ -1,17 +1,17 @@
 {
-  "name": "unleash-demo-app",
+  "name": "unleash-fullstack-demo-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"yarn:dev:backend\" \"yarn:dev:frontend\"",
+    "dev": "concurrently 'npm:dev:backend' 'npm:dev:frontend'",
     "dev:frontend": "vite",
-    "dev:backend": "yarn --cwd ./backend run dev",
+    "dev:backend": "npm --prefix ./backend run dev",
     "check": "tsc",
     "build": "vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "yarn build && yarn --cwd ./backend run start",
+    "start": "npm run build && npm --prefix ./backend run start",
     "e2e": "npx playwright test --ui"
   },
   "dependencies": {
@@ -48,5 +48,8 @@
   "workspaces": [
     "backend"
   ],
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.15.1"
 }

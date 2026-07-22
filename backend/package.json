@@ -1,7 +1,7 @@
 {
-  "name": "unleash-demo-app-backend",
+  "name": "unleash-fullstack-demo-app-backend",
   "version": "1.0.0",
-  "description": "Express backend for Unleash demo app",
+  "description": "Express backend for the Unleash fullstack demo app",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -27,5 +27,8 @@
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

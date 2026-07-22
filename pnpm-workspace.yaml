@@ -1,0 +1,12 @@
+packages:
+  - backend
+
+# Supply-chain hardening: wait 24h before newly published versions may be installed.
+# (1440 is the pnpm 11 default; kept explicit for documentation.)
+minimumReleaseAge: 1440
+
+# esbuild (dep of vite and tsx) and @swc/core (dep of @vitejs/plugin-react-swc)
+# have install scripts; pnpm 11 blocks dependency build scripts unless allowed here.
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
