@@ -3,6 +3,7 @@ import { extractUnleashContext, FlagContext } from './extractUnleashContext.js';
 
 // Extend the Express Request interface to include flagContext
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace -- augmenting Express's Request type requires namespace syntax
   namespace Express {
     interface Request {
       flagContext?: FlagContext;

@@ -25,5 +25,15 @@ export default tseslint.config(
     linterOptions: {
       reportUnusedDisableDirectives: 'error'
     }
+  },
+  {
+    files: ['backend/src/**/*.ts'],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
+    languageOptions: {
+      globals: globals.node
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error'
+    }
   }
 )

@@ -9,7 +9,7 @@
     "dev:backend": "npm --prefix ./backend run dev",
     "check": "tsc",
     "build": "vite build",
-    "lint": "eslint src --max-warnings 0",
+    "lint": "eslint src backend/src --max-warnings 0",
     "preview": "vite preview",
     "start": "npm run build && npm --prefix ./backend run start",
     "e2e": "npx playwright test --ui"

@@ -1,4 +1,4 @@
-import { register, Counter, Gauge, Histogram, collectDefaultMetrics } from 'prom-client';
+import { register, Counter, Histogram, collectDefaultMetrics } from 'prom-client';
 
 // Initialize default metrics (CPU, memory, etc.)
 collectDefaultMetrics({ register });
