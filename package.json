@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "concurrently 'npm:dev:backend' 'npm:dev:frontend'",
     "dev:frontend": "vite",
-    "dev:backend": "npm --prefix ./backend run dev",
-    "check": "tsc",
+    "dev:backend": "tsx watch backend/src/index.ts",
+    "check": "tsc && tsc -p backend --noEmit",
     "build": "vite build",
     "lint": "eslint src backend/src --max-warnings 0",
     "preview": "vite preview",
-    "start": "npm run build && npm --prefix ./backend run start",
+    "start": "npm run build && npm run start:backend",
+    "start:backend": "tsx backend/src/index.ts",
+    "test-chat": "node backend/test-chat-api.js",
+    "test-metrics": "node backend/test-metrics.js",
     "e2e": "npx playwright test --ui"
   },
   "dependencies": {
@@ -21,6 +24,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
+    "tsx": "4.19.4",
     "unleash-proxy-client": "^3.8.0"
   },
   "devDependencies": {

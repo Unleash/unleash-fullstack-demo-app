@@ -4,32 +4,30 @@ The backend service for the Unleash fullstack demo app. Built with Express and T
 
 ## Development
 
-Install dependencies from the repo root (the backend is a pnpm workspace):
+All tasks run from the repo root (this package defines no scripts of its own):
 
 ```bash
+# Install dependencies (root + backend workspace)
 pnpm install
-```
 
-Then, from this directory:
-
-```bash
-# Start development server with hot-reload
+# Start both development servers, or the backend alone with hot-reload
 pnpm dev
+pnpm dev:backend
 
-# Build the TypeScript code
-pnpm build
+# Type-check frontend + backend
+pnpm check
 
-# Start production server
-pnpm start
+# Start the backend serving the built frontend
+pnpm start:backend
 
-# Test the AI chat API
+# Test the AI chat API (against a running server)
 pnpm test-chat
 
-# Test the metrics collection
+# Test the metrics collection (against a running server)
 pnpm test-metrics
 ```
 
-Alternatively, use `npm` (from the repo root: `npm --prefix ./backend run dev`).
+Alternatively, use `npm` (`npm run dev`, `npm run check`, and so on).
 
 ## API Endpoints
 
@@ -81,7 +79,6 @@ The application uses the following feature flags:
 - `src/contextMiddleware.ts` - Middleware for extracting Unleash context from request headers
 - `test-chat-api.js` - Script for testing the chat API
 - `test-metrics.js` - Script for testing metrics collection
-- `dist/` - Compiled JavaScript files (generated after build)
 
 ## Static Content
 
