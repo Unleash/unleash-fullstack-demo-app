@@ -58,14 +58,12 @@ These metrics are available at the `/metrics` endpoint and can be scraped by Pro
 
 ## Configuration
 
-The server can be configured using the following environment variables:
+The server reads the repo-root `.env` file on startup (`src/loadEnv.ts`); variables already set in the process environment take precedence. See `.env.example` at the repo root for the full contract. The backend uses:
 
+- `UNLEASH_URL` - Unleash server API base URL, ends with `/api/` (required)
+- `UNLEASH_API_KEY` - Backend (client) token for the project/environment (required)
+- `NODE_ENV` - `development` or `production`; controls debug logging and the chat response shape
 - `PORT` - The port on which the server will listen (default: 3000)
-- `NODE_ENV` - The environment in which the server is running (default: 'development')
-- `UNLEASH_URL` - The URL of the Unleash server (default: 'https://app.unleash-hosted.com/demo/api/')
-- `UNLEASH_API_KEY` - The API key for the Unleash server (default: 'unleash-fullstack-demo-app:production.7d1f7105647713d79ee78dee96463f10ab990081f7ac22cf1066feec')
-- `VITE_UNLEASH_FRONTEND_API_URL` - The URL of the Unleash frontend API (default: 'https://app.unleash-hosted.com/demo/api/frontend')
-- `VITE_UNLEASH_FRONTEND_API_KEY` - The API key for the Unleash frontend API (default: 'unleash-fullstack-demo-app:production.3416d5c4fad0c6eccd5093b19b1c94ade9c9c0cd81c2034704ef9165')
 
 ## Feature Flags
 

@@ -1,4 +1,6 @@
 console.log('Starting server...')
+
+import './loadEnv.js'
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -12,14 +14,25 @@ import { unleashContextMiddleware } from './contextMiddleware.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+const unleashUrl = process.env.UNLEASH_URL
+const unleashApiKey = process.env.UNLEASH_API_KEY
+
+// Placeholder values copied verbatim from .env.example count as unset
+const isUnset = (value?: string) => !value || value.includes('<')
+
+if (isUnset(unleashUrl) || isUnset(unleashApiKey)) {
+  console.error(
+    'Missing Unleash configuration: set UNLEASH_URL and UNLEASH_API_KEY in the repo-root .env file (see .env.example) or in the environment.'
+  )
+  process.exit(1)
+}
+
 // Initialize Unleash client
 const unleash = initialize({
-  url: process.env.UNLEASH_URL || 'https://app.unleash-hosted.com/demo/api/',
-  appName: 'unleash-demo-app',
+  url: unleashUrl!,
+  appName: 'unleash-fullstack-demo-app',
   customHeaders: {
-    Authorization:
-      process.env.UNLEASH_API_KEY ||
-      'unleash-fullstack-demo-app:production.7d1f7105647713d79ee78dee96463f10ab990081f7ac22cf1066feec'
+    Authorization: unleashApiKey!
   }
 })
 

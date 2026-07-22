@@ -16,14 +16,22 @@ import { trackImpression } from './utils/analyticsService.ts'
 
 const { userId, ...properties } = getInitialContext()
 
+const url = import.meta.env.VITE_UNLEASH_FRONTEND_API_URL
+const clientKey = import.meta.env.VITE_UNLEASH_FRONTEND_API_KEY
+
+// Placeholder values copied verbatim from .env.example count as unset
+const isUnset = (value?: string) => !value || value.includes('<')
+
+if (isUnset(url) || isUnset(clientKey)) {
+  throw new Error(
+    'Missing Unleash frontend configuration: set VITE_UNLEASH_FRONTEND_API_URL and VITE_UNLEASH_FRONTEND_API_KEY in the repo-root .env file (see .env.example).'
+  )
+}
+
 // Unleash
 const config: IConfig = {
-  url:
-    import.meta.env.VITE_UNLEASH_FRONTEND_API_URL ||
-    'https://app.unleash-hosted.com/demo/api/frontend',
-  clientKey:
-    import.meta.env.VITE_UNLEASH_FRONTEND_API_KEY ||
-    'unleash-fullstack-demo-app:production.3416d5c4fad0c6eccd5093b19b1c94ade9c9c0cd81c2034704ef9165',
+  url,
+  clientKey,
   refreshInterval: 2,
   appName: 'unleash-fullstack-demo-app',
   // Emit impression events for every flag evaluation, regardless of the
