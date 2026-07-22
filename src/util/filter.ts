@@ -1,7 +1,7 @@
-export const filterOutFalsyFromObject = <T extends Record<string, any>>(
+export const filterOutFalsyFromObject = <T extends Record<string, unknown>>(
   obj: T
 ): Partial<T> => {
   return Object.fromEntries(
-    Object.entries(obj).filter(([_, value]) => Boolean(value))
+    Object.entries(obj).filter(([, value]) => Boolean(value))
   ) as Partial<T>
 }

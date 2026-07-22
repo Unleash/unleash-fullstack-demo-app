@@ -15,7 +15,7 @@ const hexToRgb = (hexValue: string): number[] => {
 export const getColor = (colorValue = '#6C65E5'): IColor => {
   let r, g, b
   if (colorValue.startsWith('#')) {
-    ;[r, g, b] = hexToRgb(colorValue)
+    [r, g, b] = hexToRgb(colorValue)
   } else {
     const tempEl = document.createElement('div')
     tempEl.style.color = colorValue
@@ -24,9 +24,9 @@ export const getColor = (colorValue = '#6C65E5'): IColor => {
     document.body.removeChild(tempEl)
     const matches = computedColor.match(/rgba?\((\d+), (\d+), (\d+)/)
     if (matches) {
-      ;[r, g, b] = matches.slice(1).map(parseFloat)
+      [r, g, b] = matches.slice(1).map(parseFloat)
     } else {
-      ;[r, g, b] = [0, 0, 0]
+      [r, g, b] = [0, 0, 0]
     }
   }
   const rgb = `${r}, ${g}, ${b}`

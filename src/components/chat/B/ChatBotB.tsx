@@ -81,13 +81,14 @@ export const ChatBotB = ({ onOpen, onClose, onNew }: IChatBotBProps) => {
       { threshold: 1.0 }
     )
 
-    if (chatEndRef.current) {
-      intersectionObserver.observe(chatEndRef.current)
+    const chatEnd = chatEndRef.current
+    if (chatEnd) {
+      intersectionObserver.observe(chatEnd)
     }
 
     return () => {
-      if (chatEndRef.current) {
-        intersectionObserver.unobserve(chatEndRef.current)
+      if (chatEnd) {
+        intersectionObserver.unobserve(chatEnd)
       }
     }
   }, [open])

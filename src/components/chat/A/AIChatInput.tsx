@@ -53,13 +53,14 @@ export const AIChatInput = ({
       }
     })
 
-    if (inputContainerRef.current) {
-      resizeObserver.observe(inputContainerRef.current)
+    const inputContainer = inputContainerRef.current
+    if (inputContainer) {
+      resizeObserver.observe(inputContainer)
     }
 
     return () => {
-      if (inputContainerRef.current) {
-        resizeObserver.unobserve(inputContainerRef.current)
+      if (inputContainer) {
+        resizeObserver.unobserve(inputContainer)
       }
     }
   }, [onHeightChange])

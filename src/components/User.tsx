@@ -11,7 +11,7 @@ export const User = () => {
   } = useLocalContext()
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(userId!)
+    navigator.clipboard.writeText(userId)
     toast.success('userId copied to clipboard')
   }
 

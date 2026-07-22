@@ -57,6 +57,9 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
       Sentry.setContext('localContext', context)
       Sentry.setTag('flag.chatbotVariant', chatbotVariant.name || 'none')
     }
+    // The stringified context re-runs this only on value changes; the raw
+    // `context` object would also re-fire session tracking on identity changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flagsReady, chatbotVariant.name, JSON.stringify(context)])
 
   const onGetSupport = () => {

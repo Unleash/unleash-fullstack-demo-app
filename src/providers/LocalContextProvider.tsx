@@ -21,6 +21,7 @@ type LocalContextType = {
 
 const LocalContext = createContext<LocalContextType | undefined>(undefined)
 
+// eslint-disable-next-line react-refresh/only-export-components -- the context helpers live with the provider; a full reload on HMR is fine here
 export const getInitialContext = (): LocalContextData => {
   let userId = localStorage.getItem('userId')
   if (!userId) {
@@ -90,6 +91,7 @@ export const LocalContextProvider = ({
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components -- the context helpers live with the provider; a full reload on HMR is fine here
 export const useLocalContext = () => {
   const ctx = useContext(LocalContext)
   if (!ctx)
