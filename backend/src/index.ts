@@ -52,12 +52,11 @@ app.get('/api/info', (req, res) => {
 // AI Chat endpoint
 app.post('/api/chat', handleChatRequest(unleash))
 
-// For any other GET request, send the index.html file
-// This enables client-side routing
+// Debug endpoint: shows which variant the backend SDK evaluates after polling
 app.get('/api/flag/variant', (req, res) => {
-  // Log the context for debugging (remove in production)
-  if (req.flagContext && Object.keys(req.flagContext).length > 0) {
-    console.log('Using context for feature flag evaluation in /api/flag/variant:', req.flagContext);
+  // Log the context for debugging outside production
+  if (process.env.NODE_ENV !== 'production' && req.flagContext && Object.keys(req.flagContext).length > 0) {
+    console.log('Using context for feature flag evaluation in /api/flag/variant:', req.flagContext)
   }
 
   // Use the flag context from the request if available

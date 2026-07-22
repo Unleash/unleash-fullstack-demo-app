@@ -39,6 +39,8 @@ Alternatively, use `npm` (from the repo root: `npm --prefix ./backend run dev`).
   - Response: `{ "response": "AI response", "variant": "basic|advanced", "executionTimeMs": 123, "costInDollars": 0.02 }`
   - Supports questions about total expenses, expense categories, highest expenses, and spending patterns (advanced variant only)
   - Supports context parameters passed via headers in the format `Unleash-ContextParam-{paramName}: {value}`
+- `GET /api/flag/variant` - Debug endpoint returning the variant of the 'fsDemoApp.chatbot' flag as evaluated by the backend SDK
+  - Supports context parameters passed via headers in the format `Unleash-ContextParam-{paramName}: {value}`
 - `GET /metrics` - Prometheus metrics endpoint for monitoring chat performance and costs
 
 ## Metrics
