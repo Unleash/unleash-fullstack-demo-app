@@ -1,4 +1,5 @@
 import { Header } from '../components/Header'
+import { EnvRibbon } from '../components/EnvRibbon'
 
 interface IDemoLayoutProps {
   children: React.ReactNode
@@ -6,6 +7,7 @@ interface IDemoLayoutProps {
 
 export const DemoLayout = ({ children }: IDemoLayoutProps) => (
   <>
+    <EnvRibbon />
     <Header />
     <div className='relative bg-gray-50 h-full sm:h-[calc(100%-48px)] flex justify-center sm:items-center max-h-screen overflow-hidden'>
       {children}

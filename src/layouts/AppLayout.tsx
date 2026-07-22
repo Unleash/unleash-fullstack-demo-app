@@ -1,4 +1,5 @@
 import { useFlagsStatus, useVariant } from '@unleash/proxy-client-react'
+import { Icon } from '@iconify/react'
 import toast, { Toaster } from 'react-hot-toast'
 import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
@@ -85,12 +86,13 @@ export const AppLayout = ({ children }: IAppLayoutProps) => {
         className='absolute top-2 left-2 h-6 w-6 z-10 sm:hidden'
       />
       <button
-        className='absolute top-2 right-2 underline text-white sm:text-black z-10 text-xs'
+        className='absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-unleash px-3 py-1.5 rounded text-xs text-white opacity-60 hover:opacity-100 transition-opacity'
         onClick={() => {
           setFeedbackOpen(false)
           resetContext()
         }}
       >
+        <Icon icon='ic:round-refresh' />
         Reset demo
       </button>
       <Toaster
