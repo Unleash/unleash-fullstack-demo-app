@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
-import { IColor, getColor } from '../util/color'
-import { random } from '../util/random'
-import { COMPANIES, ICompany, SAMSUNG } from '../util/constants'
+import { IColor, getColor } from '../utils/color'
+import { random } from '../utils/random'
+import { COMPANIES, ICompany, SAMSUNG } from '../utils/constants'
 import { ProgressBar } from './ProgressBar'
 
 const addExpense = (company?: ICompany) => {

@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from 'react'
 import Bowser from 'bowser'
 import { useUnleashContext } from '@unleash/proxy-client-react'
-import { random } from '../util/random'
-import { filterOutFalsyFromObject } from '../util/filter'
+import { random } from '../utils/random'
+import { filterOutFalsyFromObject } from '../utils/filter'
 
 type LocalContextData = {
   userId: string

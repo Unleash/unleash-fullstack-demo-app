@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { getColor } from '../util/color'
+import { getColor } from '../utils/color'
 import { ExpensesChart } from '../components/ExpensesChart'
 import { ExpensesTable } from '../components/ExpensesTable'
 

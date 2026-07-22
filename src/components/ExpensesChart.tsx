@@ -1,5 +1,5 @@
-import { IColor } from '../util/color'
-import { random } from '../util/random'
+import { IColor } from '../utils/color'
+import { random } from '../utils/random'
 
 interface IExpensesChartProps {
   color: IColor

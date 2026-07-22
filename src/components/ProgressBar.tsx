@@ -1,4 +1,4 @@
-import { IColor } from '../util/color'
+import { IColor } from '../utils/color'
 
 interface IProgressBarProps {
   value: number
