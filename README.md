@@ -39,6 +39,26 @@ One `.env` file at the repo root serves both sides: the backend loads it on star
 | `NODE_ENV` | backend + build | yes | `development` or `production` |
 | `PORT` | backend | no | Backend HTTP port (default: 3000) |
 
+## Demo scenarios
+
+All scenarios are driven by feature flags in the connected Unleash project:
+
+- `fsDemoApp.chatbot` — controls the AI chatbot. The `basic` variant answers simple expense questions fast and cheap; the `advanced` variant adds spending-pattern analysis, slower and more expensive (visible in the `chat_*` metrics). Closing the chat asks for a feedback score, reported per variant. With the flag off there is no chatbot — only the "Get support" fallback.
+- `fsDemoApp.problematicNewFeature` — simulates a broken release: while enabled, every message to the advanced chatbot fails with a visible error. Turning it off is the instant rollback.
+- `fsDemoApp.showContext` — while enabled, renders the current Unleash context under the user card, useful when demoing context-based targeting.
+- `fsDemoApp.spendingInsights` — the Safeguards demo, described below.
+
+## Feature Flags
+
+The frontend evaluates the following feature flags (scenario descriptions above):
+
+- `fsDemoApp.chatbot` - The variant selects the chatbot implementation: `basic` → ChatBot A, `advanced` → ChatBot B; disabled → no chatbot (the feedback popup is variant-gated too)
+- `fsDemoApp.problematicNewFeature` - Makes every message to the advanced chatbot fail with a visible error
+- `fsDemoApp.showContext` - Shows the current Unleash context under the user card
+- `fsDemoApp.spendingInsights` - Shows the AI Spending Insight banner; the widget also hides itself when the backend answers 404
+
+The backend's flag usage is documented in [backend/README.md](backend/README.md).
+
 ## Safeguards demo
 
 The `fsDemoApp.spendingInsights` flag drives an "AI Spending Insight" banner that fails at a controlled rate. The widget polls every 10 seconds, so one open tab generates enough error traffic to trip a low-threshold Unleash Safeguard. The backend records the impact metrics `unleash_fullstack_demo_insights_requests_total`, `unleash_fullstack_demo_insights_errors_total`, and `unleash_fullstack_demo_insights_response_time_ms`; Prometheus mirrors are exposed on `/metrics`.

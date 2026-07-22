@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { Unleash, Context } from 'unleash-client'
 import { userExpenses } from './chatService.js'
 import { recordInsightsMetrics } from './metricsService.js'
-import { FlagContext } from './extractUnleashContext.js'
+import { toUnleashContext } from './extractUnleashContext.js'
 
 const FLAG_NAME = 'fsDemoApp.spendingInsights'
 
@@ -16,18 +16,6 @@ const LATENCY_JITTER = 0.4
 const METRIC_REQUESTS = 'unleash_fullstack_demo_insights_requests_total'
 const METRIC_ERRORS = 'unleash_fullstack_demo_insights_errors_total'
 const METRIC_RESPONSE_TIME = 'unleash_fullstack_demo_insights_response_time_ms'
-
-// Lift the flat, lowercased header map into a proper Unleash context so that
-// gradual-rollout stickiness on userId/sessionId matches the frontend
-// evaluation (a top-level userId sticks; one buried in properties does not).
-export const toUnleashContext = (flagContext?: FlagContext): Context => {
-  if (!flagContext) return {}
-
-  const context: Context = { properties: { ...flagContext } }
-  if (flagContext.userid) context.userId = flagContext.userid
-  if (flagContext.sessionid) context.sessionId = flagContext.sessionid
-  return context
-}
 
 // Called once after initialize(); registers the impact metrics with the SDK.
 export const defineInsightsImpactMetrics = (unleash: Unleash) => {

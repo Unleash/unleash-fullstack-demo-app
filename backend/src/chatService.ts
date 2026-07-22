@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { Unleash } from 'unleash-client'
 import { recordChatMetrics } from './metricsService.js'
+import { toUnleashContext } from './extractUnleashContext.js'
 
 export interface Expense {
   id: number
@@ -192,9 +193,10 @@ export const handleChatRequest =
   (unleash: Unleash) => async (req: Request, res: Response) => {
     const { message } = req.body
 
-    const variant = req.flagContext
-      ? unleash.getVariant('fsDemoApp.chatbot', { properties: req.flagContext })
-      : unleash.getVariant('fsDemoApp.chatbot')
+    const variant = unleash.getVariant(
+      'fsDemoApp.chatbot',
+      toUnleashContext(req.flagContext)
+    )
 
     if (variant.name !== 'basic' && variant.name !== 'advanced') {
       return res.sendStatus(404)

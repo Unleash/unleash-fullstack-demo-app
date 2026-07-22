@@ -1,9 +1,23 @@
 import { Request } from 'express';
+import { Context } from 'unleash-client';
 
 // Define the type for the flag context
 export interface FlagContext {
   [key: string]: string;
 }
+
+// Lift the flat, lowercased header map into a proper Unleash context so that
+// variant selection and gradual-rollout stickiness on userId/sessionId match
+// the frontend evaluation (a top-level userId sticks; one buried in
+// properties does not).
+export const toUnleashContext = (flagContext?: FlagContext): Context => {
+  if (!flagContext) return {};
+
+  const context: Context = { properties: { ...flagContext } };
+  if (flagContext.userid) context.userId = flagContext.userid;
+  if (flagContext.sessionid) context.sessionId = flagContext.sessionid;
+  return context;
+};
 
 /**
  * Extracts Unleash context from request headers

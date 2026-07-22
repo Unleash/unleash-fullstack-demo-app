@@ -19,13 +19,9 @@ pnpm check
 
 # Start the backend serving the built frontend
 pnpm start:backend
-
-# Test the AI chat API (against a running server)
-pnpm test-chat
-
-# Test the metrics collection (against a running server)
-pnpm test-metrics
 ```
+
+The API is covered by the Playwright specs in `e2e/` (`chat-api.spec.ts`, `metrics.spec.ts`, `spending-insight.spec.ts`), which run against a started app.
 
 Alternatively, use `npm` (`npm run dev`, `npm run check`, and so on).
 
@@ -65,20 +61,19 @@ The server reads the repo-root `.env` file on startup (`src/loadEnv.ts`); variab
 
 ## Feature Flags
 
-The application uses the following feature flags:
+The backend evaluates the following feature flags (see the root README for the full scenario descriptions):
 
-- `fsDemoApp.chatbot` - Controls which variant of the AI chat to use:
-  - When enabled: Uses the advanced AI chat with detailed expense analysis
-  - When disabled: Uses the basic AI chat with simple expense information
+- `fsDemoApp.chatbot` - Selects the `basic` or `advanced` chat variant; off means no chat
+- `fsDemoApp.spendingInsights` - Gates the `/api/insights` endpoint of the Safeguards demo
 
 ## File Structure
 
 - `src/index.ts` - Main entry point for the Express application
+- `src/loadEnv.ts` - Loads the repo-root `.env` file on startup
 - `src/chatService.ts` - Service for handling AI chat functionality
+- `src/insightsService.ts` - Safeguards demo: spending insights and impact metrics
 - `src/metricsService.ts` - Service for collecting and exposing Prometheus metrics
 - `src/contextMiddleware.ts` - Middleware for extracting Unleash context from request headers
-- `test-chat-api.js` - Script for testing the chat API
-- `test-metrics.js` - Script for testing metrics collection
 
 ## Static Content
 
