@@ -7,7 +7,7 @@ import {
   trackSupportClick,
   trackSessionStart,
   trackChatOpen
-} from '../utils/plausibleService.ts'
+} from '../utils/analyticsService'
 import React, { useEffect, useState } from 'react'
 import { SplashScreen } from '../components/SplashScreen'
 import { useLocalContext } from '../providers/LocalContextProvider'
