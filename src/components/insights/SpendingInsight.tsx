@@ -5,6 +5,7 @@ import {
   useInsightsApi,
   SpendingInsightData
 } from '../../hooks/api/useInsightsApi'
+import { FLAGS } from '../../utils/flags'
 
 // The poll doubles as the demo's traffic generator: one open tab produces
 // ~6 requests/minute, enough to trip a low-threshold safeguard.
@@ -13,7 +14,7 @@ const POLL_INTERVAL_MS = 10_000
 type InsightState = 'loading' | 'ready' | 'error' | 'hidden'
 
 export const SpendingInsight = () => {
-  const enabled = useFlag('fsDemoApp.spendingInsights')
+  const enabled = useFlag(FLAGS.spendingInsights)
   const { fetchInsight } = useInsightsApi()
 
   const [state, setState] = useState<InsightState>('loading')

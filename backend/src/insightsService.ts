@@ -3,8 +3,8 @@ import { Unleash, Context } from 'unleash-client'
 import { userExpenses } from './chatService.js'
 import { recordInsightsMetrics } from './metricsService.js'
 import { toUnleashContext } from './extractUnleashContext.js'
-
-const FLAG_NAME = 'fsDemoApp.spendingInsights'
+import { FLAGS } from './flags.js'
+import { METRICS } from './metrics.js'
 
 // Defaults; a variant JSON payload {"errorRate": 0.3, "latencyMs": 250} on
 // the flag overrides them live from the Unleash UI without a redeploy.
@@ -12,23 +12,18 @@ const DEFAULT_ERROR_RATE = 0.3
 const DEFAULT_LATENCY_MS = 250
 const LATENCY_JITTER = 0.4
 
-// Impact metric names carry the app prefix so they are recognized properly.
-const METRIC_REQUESTS = 'unleash_fullstack_demo_insights_requests_total'
-const METRIC_ERRORS = 'unleash_fullstack_demo_insights_errors_total'
-const METRIC_RESPONSE_TIME = 'unleash_fullstack_demo_insights_response_time_ms'
-
 // Called once after initialize(); registers the impact metrics with the SDK.
 export const defineInsightsImpactMetrics = (unleash: Unleash) => {
   unleash.impactMetrics.defineCounter(
-    METRIC_REQUESTS,
+    METRICS.insightsRequests,
     'Total number of spending-insight requests'
   )
   unleash.impactMetrics.defineCounter(
-    METRIC_ERRORS,
+    METRICS.insightsErrors,
     'Total number of failed spending-insight requests'
   )
   unleash.impactMetrics.defineHistogram(
-    METRIC_RESPONSE_TIME,
+    METRICS.insightsResponseTimeMs,
     'Response time of spending-insight requests in milliseconds'
   )
 }
@@ -44,7 +39,7 @@ const resolveConfig = (unleash: Unleash, context: Context): InsightsConfig => {
     latencyMs: DEFAULT_LATENCY_MS
   }
 
-  const variant = unleash.getVariant(FLAG_NAME, context)
+  const variant = unleash.getVariant(FLAGS.spendingInsights, context)
   if (variant.payload?.type === 'json') {
     try {
       const payload = JSON.parse(variant.payload.value)
@@ -89,7 +84,7 @@ export const handleInsightsRequest =
     const context = toUnleashContext(req.flagContext)
 
     // Flag off (or disabled by a safeguard) — signal the frontend to hide
-    if (!unleash.isEnabled(FLAG_NAME, context)) {
+    if (!unleash.isEnabled(FLAGS.spendingInsights, context)) {
       return res.sendStatus(404)
     }
 
@@ -101,11 +96,14 @@ export const handleInsightsRequest =
     await new Promise(resolve => setTimeout(resolve, delayMs))
     const elapsedMs = Date.now() - startTime
 
-    unleash.impactMetrics.incrementCounter(METRIC_REQUESTS)
-    unleash.impactMetrics.observeHistogram(METRIC_RESPONSE_TIME, elapsedMs)
+    unleash.impactMetrics.incrementCounter(METRICS.insightsRequests)
+    unleash.impactMetrics.observeHistogram(
+      METRICS.insightsResponseTimeMs,
+      elapsedMs
+    )
 
     if (Math.random() < errorRate) {
-      unleash.impactMetrics.incrementCounter(METRIC_ERRORS)
+      unleash.impactMetrics.incrementCounter(METRICS.insightsErrors)
       recordInsightsMetrics('error', elapsedMs)
       return res.status(500).json({ error: 'Failed to compute spending insight' })
     }

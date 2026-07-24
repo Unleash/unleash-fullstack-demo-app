@@ -13,6 +13,8 @@ import {
 } from './insightsService.js'
 import { metricsRegistry } from './metricsService.js'
 import { unleashContextMiddleware } from './contextMiddleware.js'
+import { toUnleashContext } from './extractUnleashContext.js'
+import { FLAGS } from './flags.js'
 
 // Get the directory name for ES modules
 const __filename = fileURLToPath(import.meta.url)
@@ -82,10 +84,11 @@ app.get('/api/flag/variant', (req, res) => {
     console.log('Using context for feature flag evaluation in /api/flag/variant:', req.flagContext)
   }
 
-  // Use the flag context from the request if available
-  const variant = req.flagContext
-    ? unleash.getVariant('fsDemoApp.chatbot', req.flagContext)
-    : unleash.getVariant('fsDemoApp.chatbot')
+  // Evaluate exactly like the chat handler does
+  const variant = unleash.getVariant(
+    FLAGS.chatbot,
+    toUnleashContext(req.flagContext)
+  )
   res.json(variant)
 })
 

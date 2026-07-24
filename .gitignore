@@ -10,6 +10,7 @@ dist-ssr
 # Settings and environment variables.
 *.local
 .env
+*rendercom*
 
 # `yarn` is retired; `pnpm-lock.yaml` and `package-lock.json` are now canonical.
 yarn.lock

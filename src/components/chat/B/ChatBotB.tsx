@@ -5,6 +5,7 @@ import { AIChatHeader } from './AIChatHeader'
 import { AIChatInput } from './AIChatInput'
 import { AIChatMessage } from './AIChatMessage'
 import { useFlag } from '@unleash/proxy-client-react'
+import { FLAGS } from '../../../utils/flags'
 
 type ScrollOptions = ScrollIntoViewOptions & {
   onlyIfAtEnd?: boolean
@@ -27,7 +28,7 @@ export const ChatBotB = ({ onOpen, onClose, onNew }: IChatBotBProps) => {
 
   const [messages, setMessages] = useState<ChatMessage[]>([])
 
-  const problematicNewFeature = useFlag('fsDemoApp.problematicNewFeature')
+  const problematicNewFeature = useFlag(FLAGS.problematicNewFeature)
 
   const { chat } = useAIApi()
 

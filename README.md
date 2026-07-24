@@ -34,6 +34,7 @@ One `.env` file at the repo root serves both sides: the backend loads it on star
 | `UNLEASH_API_KEY` | backend | yes | Backend (client) token, per project/environment |
 | `VITE_UNLEASH_FRONTEND_API_URL` | frontend (build) | yes | Frontend API base URL, ends with `/api/frontend` |
 | `VITE_UNLEASH_FRONTEND_API_KEY` | frontend (build) | yes | Frontend token; also encodes the environment name (`project:env.hash`) |
+| `VITE_UNLEASH_FLAG_PREFIX` | frontend (build) + backend | no | Per-deployment prefix prepended to flag and impact-metric names (e.g. `unique` → `unique_fsDemoApp.chatbot`); unset: default names |
 | `VITE_ENVIRONMENT_LABEL` | frontend (build) | no | Display-only override for the ribbon/header text; default: parsed from the frontend token, else `(not set)` |
 | `VITE_UNLEASH_PROJECT_URL` | frontend (build) | no | "Open Unleash" link target in the header |
 | `NODE_ENV` | backend + build | yes | `development` or `production` |
@@ -50,7 +51,7 @@ All scenarios are driven by feature flags in the connected Unleash project:
 
 ## Feature Flags
 
-The frontend evaluates the following feature flags (scenario descriptions above):
+The frontend evaluates the following feature flags (scenario descriptions above). Names shown are the defaults; with `VITE_UNLEASH_FLAG_PREFIX` set they gain a `<prefix>_` prefix — the same applies to the impact-metric names below.
 
 - `fsDemoApp.chatbot` - The variant selects the chatbot implementation: `basic` → ChatBot A, `advanced` → ChatBot B; disabled → no chatbot (the feedback popup is variant-gated too)
 - `fsDemoApp.problematicNewFeature` - Makes every message to the advanced chatbot fail with a visible error

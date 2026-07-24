@@ -61,7 +61,7 @@ The server reads the repo-root `.env` file on startup (`src/loadEnv.ts`); variab
 
 ## Feature Flags
 
-The backend evaluates the following feature flags (see the root README for the full scenario descriptions):
+The backend evaluates the following feature flags (see the root README for the full scenario descriptions). Names shown are the defaults; with `VITE_UNLEASH_FLAG_PREFIX` set, flag and impact-metric names gain a `<prefix>_` prefix:
 
 - `fsDemoApp.chatbot` - Selects the `basic` or `advanced` chat variant; off means no chat
 - `fsDemoApp.spendingInsights` - Gates the `/api/insights` endpoint of the Safeguards demo

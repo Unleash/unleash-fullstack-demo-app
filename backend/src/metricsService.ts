@@ -1,4 +1,5 @@
 import { register, Counter, Histogram, collectDefaultMetrics } from 'prom-client';
+import { METRICS } from './metrics.js';
 
 // Initialize default metrics (CPU, memory, etc.)
 collectDefaultMetrics({ register });
@@ -39,14 +40,14 @@ const chatCostPerCall = new Histogram({
 
 // Counter for spending-insight requests, split by outcome
 const insightsRequestCount = new Counter({
-  name: 'unleash_fullstack_demo_insights_requests_total',
+  name: METRICS.insightsRequests,
   help: 'Total number of spending-insight requests',
   labelNames: ['outcome']
 });
 
 // Histogram for spending-insight response time
 const insightsResponseTime = new Histogram({
-  name: 'unleash_fullstack_demo_insights_response_time_seconds',
+  name: METRICS.insightsResponseTimeSeconds,
   help: 'Response time of spending-insight requests in seconds',
   buckets: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5] // Buckets based on the default 250ms ±40% latency
 });

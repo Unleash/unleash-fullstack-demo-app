@@ -5,6 +5,7 @@ import { User } from '../components/User'
 import { ChatBotA } from '../components/chat/A/ChatBotA'
 import { ChatBotB } from '../components/chat/B/ChatBotB'
 import { SpendingInsight } from '../components/insights/SpendingInsight'
+import { FLAGS } from '../utils/flags'
 import {
   trackSupportClick,
   trackSessionStart,
@@ -24,7 +25,7 @@ interface IAppLayoutProps {
 
 export const AppLayout = ({ children }: IAppLayoutProps) => {
   const { flagsReady, flagsError } = useFlagsStatus()
-  const chatbotVariant = useVariant('fsDemoApp.chatbot')
+  const chatbotVariant = useVariant(FLAGS.chatbot)
 
   const [feedbackOpen, setFeedbackOpen] = useState(false)
 

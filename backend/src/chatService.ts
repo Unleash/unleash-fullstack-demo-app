@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { Unleash } from 'unleash-client'
 import { recordChatMetrics } from './metricsService.js'
 import { toUnleashContext } from './extractUnleashContext.js'
+import { FLAGS } from './flags.js'
 
 export interface Expense {
   id: number
@@ -194,7 +195,7 @@ export const handleChatRequest =
     const { message } = req.body
 
     const variant = unleash.getVariant(
-      'fsDemoApp.chatbot',
+      FLAGS.chatbot,
       toUnleashContext(req.flagContext)
     )
 

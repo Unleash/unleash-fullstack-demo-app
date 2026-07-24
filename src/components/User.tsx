@@ -2,9 +2,10 @@ import { Icon } from '@iconify/react'
 import { toast } from 'react-hot-toast'
 import { useFlag } from '@unleash/proxy-client-react'
 import { useLocalContext } from '../providers/LocalContextProvider'
+import { FLAGS } from '../utils/flags'
 
 export const User = () => {
-  const showContext = useFlag('fsDemoApp.showContext')
+  const showContext = useFlag(FLAGS.showContext)
 
   const {
     context: { userId, ...properties }
