@@ -64,6 +64,7 @@ test('metrics', async ({ request }) => {
   // The insights mirrors (Safeguards demo) are registered at startup
   expect(after).toContain('unleash_fullstack_demo_insights_requests_total')
   expect(after).toContain('unleash_fullstack_demo_insights_response_time_seconds')
+  expect(after).toContain('unleash_fullstack_demo_insights_error_rate')
 
   if (served > 0) {
     // The chat requests just made must be visible in the counters

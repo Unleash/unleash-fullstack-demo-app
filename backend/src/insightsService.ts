@@ -22,6 +22,10 @@ export const defineInsightsImpactMetrics = (unleash: Unleash) => {
     METRICS.insightsErrors,
     'Total number of failed spending-insight requests'
   )
+  unleash.impactMetrics.defineGauge(
+    METRICS.insightsErrorRate,
+    'Currently configured simulated error rate for spending insights'
+  )
   unleash.impactMetrics.defineHistogram(
     METRICS.insightsResponseTimeMs,
     'Response time of spending-insight requests in milliseconds'
@@ -90,6 +94,11 @@ export const handleInsightsRequest =
 
     const { errorRate, latencyMs } = resolveConfig(unleash, context)
 
+    // The gauge tracks the cause (the configured rate) while the counters
+    // track the effect; it freezes at the last value once a safeguard
+    // disables the flag and requests stop reaching this point.
+    unleash.impactMetrics.updateGauge(METRICS.insightsErrorRate, errorRate)
+
     // Simulated AI processing latency with jitter
     const delayMs = latencyMs * (1 + (Math.random() * 2 - 1) * LATENCY_JITTER)
     const startTime = Date.now()
@@ -104,10 +113,10 @@ export const handleInsightsRequest =
 
     if (Math.random() < errorRate) {
       unleash.impactMetrics.incrementCounter(METRICS.insightsErrors)
-      recordInsightsMetrics('error', elapsedMs)
+      recordInsightsMetrics('error', elapsedMs, errorRate)
       return res.status(500).json({ error: 'Failed to compute spending insight' })
     }
 
-    recordInsightsMetrics('success', elapsedMs)
+    recordInsightsMetrics('success', elapsedMs, errorRate)
     res.json(computeInsight())
   }

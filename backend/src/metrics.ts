@@ -10,6 +10,9 @@ export const METRICS = {
   insightsErrors: prefixedName(
     'unleash_fullstack_demo_insights_errors_total'
   ),
+  insightsErrorRate: prefixedName(
+    'unleash_fullstack_demo_insights_error_rate'
+  ),
   insightsResponseTimeMs: prefixedName(
     'unleash_fullstack_demo_insights_response_time_ms'
   ),

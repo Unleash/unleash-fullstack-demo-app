@@ -62,7 +62,7 @@ The backend's flag usage is documented in [backend/README.md](backend/README.md)
 
 ## Safeguards demo
 
-The `fsDemoApp.spendingInsights` flag drives an "AI Spending Insight" banner that fails at a controlled rate. The widget polls every 10 seconds, so one open tab generates enough error traffic to trip a low-threshold Unleash Safeguard. The backend records the impact metrics `unleash_fullstack_demo_insights_requests_total`, `unleash_fullstack_demo_insights_errors_total`, and `unleash_fullstack_demo_insights_response_time_ms`; Prometheus mirrors are exposed on `/metrics`.
+The `fsDemoApp.spendingInsights` flag drives an "AI Spending Insight" banner that fails at a controlled rate. The widget polls every 10 seconds, so one open tab generates enough error traffic to trip a low-threshold Unleash Safeguard. The backend records the impact metrics `unleash_fullstack_demo_insights_requests_total`, `unleash_fullstack_demo_insights_errors_total`, `unleash_fullstack_demo_insights_response_time_ms`, and the gauge `unleash_fullstack_demo_insights_error_rate` (the currently configured error rate — the demo's dial); Prometheus mirrors are exposed on `/metrics`.
 
 Unleash-side setup — two recipes, same app code:
 

@@ -1,4 +1,4 @@
-import { register, Counter, Histogram, collectDefaultMetrics } from 'prom-client';
+import { register, Counter, Gauge, Histogram, collectDefaultMetrics } from 'prom-client';
 import { METRICS } from './metrics.js';
 
 // Initialize default metrics (CPU, memory, etc.)
@@ -52,10 +52,17 @@ const insightsResponseTime = new Histogram({
   buckets: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5] // Buckets based on the default 250ms ±40% latency
 });
 
+// Gauge for the currently configured simulated error rate (the demo's dial)
+const insightsErrorRate = new Gauge({
+  name: METRICS.insightsErrorRate,
+  help: 'Currently configured simulated error rate for spending insights'
+});
+
 // Function to record metrics for a spending-insight request
-export const recordInsightsMetrics = (outcome: 'success' | 'error', latencyMs: number) => {
+export const recordInsightsMetrics = (outcome: 'success' | 'error', latencyMs: number, errorRate: number) => {
   insightsRequestCount.inc({ outcome });
   insightsResponseTime.observe(latencyMs / 1000);
+  insightsErrorRate.set(errorRate);
 };
 
 // Function to record metrics for a chat query
