@@ -1,0 +1,264 @@
+{
+    "contextFields": [],
+    "dependencies": [],
+    "featureEnvironments": [
+        {
+            "enabled": false,
+            "environment": "development",
+            "featureName": "<prefix>_fsDemoApp.chatbot",
+            "name": "<prefix>_fsDemoApp.chatbot",
+            "variants": []
+        },
+        {
+            "enabled": false,
+            "environment": "development",
+            "featureName": "<prefix>_fsDemoApp.problematicNewFeature",
+            "name": "<prefix>_fsDemoApp.problematicNewFeature",
+            "variants": []
+        },
+        {
+            "enabled": false,
+            "environment": "development",
+            "featureName": "<prefix>_fsDemoApp.showContext",
+            "name": "<prefix>_fsDemoApp.showContext",
+            "variants": []
+        },
+        {
+            "enabled": false,
+            "environment": "development",
+            "featureName": "<prefix>_fsDemoApp.spendingInsights",
+            "name": "<prefix>_fsDemoApp.spendingInsights",
+            "variants": []
+        }
+    ],
+    "features": [
+        {
+            "archived": false,
+            "description": "Chatbot feature and its variants.",
+            "impressionData": false,
+            "name": "<prefix>_fsDemoApp.chatbot",
+            "project": "unleash-full-stack-demo-for-<prefix>",
+            "stale": false,
+            "type": "release"
+        },
+        {
+            "archived": false,
+            "description": "Causes errors on the advanced chatbot.",
+            "impressionData": false,
+            "name": "<prefix>_fsDemoApp.problematicNewFeature",
+            "project": "unleash-full-stack-demo-for-<prefix>",
+            "stale": false,
+            "type": "release"
+        },
+        {
+            "archived": false,
+            "description": "Whether user context is displayed.",
+            "impressionData": false,
+            "name": "<prefix>_fsDemoApp.showContext",
+            "project": "unleash-full-stack-demo-for-<prefix>",
+            "stale": false,
+            "type": "operational"
+        },
+        {
+            "archived": false,
+            "description": "Shows the AI Spending Insight banner, but the front-end widget also hides itself when flag is disabled (backend answers with 404)",
+            "impressionData": false,
+            "name": "<prefix>_fsDemoApp.spendingInsights",
+            "project": "unleash-full-stack-demo-for-<prefix>",
+            "stale": false,
+            "type": "release"
+        }
+    ],
+    "featureStrategies": [
+        {
+            "constraints": [],
+            "disabled": false,
+            "featureName": "<prefix>_fsDemoApp.chatbot",
+            "id": "01KY9JYYJ5BQ83TNG6GHPCTARA",
+            "name": "flexibleRollout",
+            "parameters": {
+                "groupId": "<prefix>_fsDemoApp.chatbot",
+                "rollout": "100",
+                "stickiness": "default"
+            },
+            "segments": [],
+            "title": null,
+            "variants": [
+                {
+                    "name": "advanced",
+                    "payload": {
+                        "type": "string",
+                        "value": "advanced"
+                    },
+                    "stickiness": "default",
+                    "weight": 500,
+                    "weightType": "variable"
+                },
+                {
+                    "name": "basic",
+                    "payload": {
+                        "type": "string",
+                        "value": "basic"
+                    },
+                    "stickiness": "default",
+                    "weight": 500,
+                    "weightType": "variable"
+                }
+            ]
+        },
+        {
+            "constraints": [],
+            "disabled": false,
+            "featureName": "<prefix>_fsDemoApp.problematicNewFeature",
+            "id": "01KY9K7SGCK471VWEYSREFRGYQ",
+            "name": "flexibleRollout",
+            "parameters": {
+                "groupId": "<prefix>_fsDemoApp.problematicNewFeature",
+                "rollout": "100",
+                "stickiness": "default"
+            },
+            "segments": [],
+            "title": "100% of all users",
+            "variants": []
+        },
+        {
+            "constraints": [],
+            "disabled": false,
+            "featureName": "<prefix>_fsDemoApp.showContext",
+            "id": "01KY9K95ZTA5038S48NN0AHWN9",
+            "name": "flexibleRollout",
+            "parameters": {
+                "groupId": "<prefix>_fsDemoApp.showContext",
+                "rollout": "100",
+                "stickiness": "default"
+            },
+            "segments": [],
+            "title": "100% of all users",
+            "variants": []
+        },
+        {
+            "constraints": [],
+            "disabled": false,
+            "featureName": "<prefix>_fsDemoApp.spendingInsights",
+            "id": "01KY9KBERENVQEW0N9AX5S1BM5",
+            "name": "flexibleRollout",
+            "parameters": {
+                "groupId": "<prefix>_fsDemoApp.spendingInsights",
+                "rollout": "100",
+                "stickiness": "default"
+            },
+            "segments": [],
+            "title": "100% of all users",
+            "variants": [
+                {
+                    "name": "default",
+                    "payload": {
+                        "type": "json",
+                        "value": "{\"errorRate\": 0.5, \"latencyMs\": 500}"
+                    },
+                    "stickiness": "default",
+                    "weight": 1000,
+                    "weightType": "variable"
+                }
+            ]
+        }
+    ],
+    "featureTags": [
+        {
+            "featureName": "<prefix>_fsDemoApp.spendingInsights",
+            "tagType": "Layer",
+            "tagValue": "BackEnd"
+        }
+    ],
+    "links": [
+        {
+            "feature": "<prefix>_fsDemoApp.problematicNewFeature",
+            "links": [
+                {
+                    "id": "01KY9K7E3K6A6NTY1BTH1D77R4",
+                    "title": "Source Code (GitHub Repository)",
+                    "url": "https://github.com/Unleash/unleash-fullstack-demo-app"
+                },
+                {
+                    "id": "01KY9K7E3M92EMSF4Q6YFP93W8",
+                    "title": "Demo Website (Render.com, development)",
+                    "url": "https://<prefix>-development-unleash-fullstack-demo.onrender.com"
+                },
+                {
+                    "id": "01KY9Q3MF61ER5AX93QCR4V8HT",
+                    "title": "Demo Website (Render.com, production)",
+                    "url": "https://<prefix>-production-unleash-fullstack-demo.onrender.com"
+                }
+            ]
+        },
+        {
+            "feature": "<prefix>_fsDemoApp.showContext",
+            "links": [
+                {
+                    "id": "01KY9K92JA1DQN061FRZWQA9PP",
+                    "title": "Source Code (GitHub Repository)",
+                    "url": "https://github.com/Unleash/unleash-fullstack-demo-app"
+                },
+                {
+                    "id": "01KY9K92JB1B2MRX7SHTE051GE",
+                    "title": "Demo Website (Render.com, development)",
+                    "url": "https://<prefix>-development-unleash-fullstack-demo.onrender.com"
+                },
+                {
+                    "id": "01KY9Q2RGXTSSGEK0DC4PFKWSB",
+                    "title": "Demo Website (Render.com, production)",
+                    "url": "https://<prefix>-production-unleash-fullstack-demo.onrender.com"
+                }
+            ]
+        },
+        {
+            "feature": "<prefix>_fsDemoApp.spendingInsights",
+            "links": [
+                {
+                    "id": "01KY9KB9AQYJVEVZAH12G38QFW",
+                    "title": "Source Code (GitHub Repository)",
+                    "url": "https://github.com/Unleash/unleash-fullstack-demo-app"
+                },
+                {
+                    "id": "01KY9KB9ARHBD8V6Y60SGCAEZ2",
+                    "title": "Demo Website (Render.com, development)",
+                    "url": "https://<prefix>-development-unleash-fullstack-demo.onrender.com"
+                },
+                {
+                    "id": "01KY9Q200JWER01M9Z2D4117AY",
+                    "title": "Demo Website (Render.com, production)",
+                    "url": "https://<prefix>-production-unleash-fullstack-demo.onrender.com"
+                }
+            ]
+        },
+        {
+            "feature": "<prefix>_fsDemoApp.chatbot",
+            "links": [
+                {
+                    "id": "01KY9NV0CX9NRB2R7BBV2STY0Z",
+                    "title": "Source Code (GitHub Repository)",
+                    "url": "https://github.com/Unleash/unleash-fullstack-demo-app"
+                },
+                {
+                    "id": "01KY9Q46WR7R370Q7RA2KPP32Y",
+                    "title": "Demo Website (Render.com, development)",
+                    "url": "https://<prefix>-development-unleash-fullstack-demo.onrender.com"
+                },
+                {
+                    "id": "01KY9Q5GV0CXCBZRDZNW7RDY12",
+                    "title": "Demo Website (Render.com, production)",
+                    "url": "https://<prefix>-production-unleash-fullstack-demo.onrender.com"
+                }
+            ]
+        }
+    ],
+    "segments": [],
+    "tagTypes": [
+        {
+            "color": "#FFC46F",
+            "description": "Layer where the flag is placed.",
+            "icon": null,
+            "name": "Layer"
+        }
+    ]
+}
